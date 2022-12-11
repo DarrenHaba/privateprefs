@@ -6,7 +6,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/privateprefs.svg)](https://pypi.org/project/privateprefs)
 
 <!-- coverage badge snipit -->
-<a href="https://coveralls.io/github/badges/shields">
+<a href="https://github.com/DarrenHaba/privateprefs/actions">
 <img src="https://img.shields.io/badge/coverage-100%25-green"
 alt="coverage"></a>
 <!-- coverage badge snipit -->
