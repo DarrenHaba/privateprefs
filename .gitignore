@@ -43,7 +43,7 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
-coverage.xml
+#coverage.xml
 *,cover
 .hypothesis/
 
@@ -184,5 +184,4 @@ fabric.properties
 # idea folder, uncomment if you don't need it
 # .idea
 .pytest_cache
-.coverage
 
