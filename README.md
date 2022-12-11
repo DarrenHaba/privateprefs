@@ -4,7 +4,6 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/privateprefs.svg)](https://pypi.org/project/privateprefs)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/privateprefs.svg)](https://pypi.org/project/privateprefs)
-
 <!-- coverage badge snipit -->
 <a href="https://coveralls.io/github/badges/shields">
 <img src="https://img.shields.io/badge/coverage-100%25-green"
