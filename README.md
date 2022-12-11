@@ -5,6 +5,9 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/privateprefs.svg)](https://pypi.org/project/privateprefs)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/privateprefs.svg)](https://pypi.org/project/privateprefs)
 
+<!-- coverage badge snipit -->
+<!-- coverage badge snipit -->
+
 -----
 
 **Table of Contents**
