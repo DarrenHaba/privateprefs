@@ -3,11 +3,8 @@
 ### PrivatePrefs - Easily keep sensitive data like API Keys, passwords, email addresses, usernames, etc. out of version control frameworks like GitHub 
 
 [![PyPI - Version](https://img.shields.io/pypi/v/privateprefs.svg)](https://pypi.org/project/privateprefs)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/privateprefs.svg)](https://pypi.org/project/privateprefs)<!-- coverage badge snipit -->
-<a href="https://github.com/DarrenHaba/privateprefs/actions">
-<img src="https://img.shields.io/badge/coverage-100%25-green"
-alt="coverage"></a>
-<!-- coverage badge snipit -->
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/privateprefs.svg)](https://pypi.org/project/privateprefs)
+[![Pytest - Coverage](https://img.shields.io/badge/coverage-100%25-green)](https://github.com/DarrenHaba/privateprefs/actions)
 
 -----
 
