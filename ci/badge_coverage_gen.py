@@ -37,7 +37,9 @@ def generate_badge(
         pattern="<!-- coverage badge snipit -->((.|\n)*)[a-z]*<!-- coverage badge snipit -->",
         percent=get_coverage_percentage()
 ):
-    new_readme = re.sub(pattern, get_code_snipit(percent), get_readme_str())
+    new_readme = re.sub(pattern,
+                        get_code_snipit(percent, link="https://github.com/DarrenHaba/privateprefs/actions"),
+                        get_readme_str())
 
     with open(path_to_readme, "w") as file:
         file.write(new_readme)
