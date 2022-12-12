@@ -31,13 +31,17 @@ def set_readme_str(readme_str):
 
 
 def get_badge_link(percent, link, title="coverage", color=None, symbol: str = "%25"):
+    green = "29ab47"
+    yellow = "yellow"
+    red = "red"
+
     if color is None:
         if 85 < percent <= 100:
-            color = "brightgreen"
+            color = green
         elif 60 < percent <= 85:
-            color = "yellow"
+            color = yellow
         else:
-            color = "red"
+            color = red
     return f"[![Pytest - Coverage](https://img.shields.io/badge/{title}-{percent}{symbol}-{color})]({link})"
 
 
