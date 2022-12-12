@@ -2,9 +2,20 @@
 
 ### PrivatePrefs - Easily keep sensitive data like API Keys, passwords, email addresses, usernames, etc. out of version control frameworks like GitHub 
 
+[![Pytest - Coverage](https://img.shields.io/badge/coverage-100%25-green)](https://github.com/DarrenHaba/privateprefs/actions)
+
+![ggg](https://github.com/DarrenHaba/privateprefs/actions/workflows/ci.yml/badge.svg)
+
+Coming Soon - to a pip install near you!
+
+In late stages of alpha testing, currently setting up CI pipeline, writing docs, completing CLI integration, etc.
+
+
+
+<!--
 [![PyPI - Version](https://img.shields.io/pypi/v/privateprefs.svg)](https://pypi.org/project/privateprefs)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/privateprefs.svg)](https://pypi.org/project/privateprefs)
-[![Pytest - Coverage](https://img.shields.io/badge/coverage-100%25-green)](https://github.com/DarrenHaba/privateprefs/actions)
+
 ![example workflow](https://github.com/darrenhaba/privateprefs/actions/workflows/ci/badge.svg)
 
 -----
@@ -23,3 +34,4 @@ pip install privateprefs
 ## License
 
 `privateprefs` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+-->
