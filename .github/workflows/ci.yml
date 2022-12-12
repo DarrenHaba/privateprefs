@@ -26,11 +26,9 @@ jobs:
       - name: Test with pytest
         run: |
           pytest --cov-report=xml --cov=privateprefs tests/
-
-      - name: Add pytest badge to README.md
-        run: python ci/badge_coverage_gen.py
-        
-      - name: Remove coverage.xml file
-        run: rm -f coverage.xml
         
       - uses: stefanzweifel/git-auto-commit-action@v4
+
+        
+  
+
