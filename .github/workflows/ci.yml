@@ -52,6 +52,9 @@ jobs:
       - name: Add pytest badge to README.md file
         run: python ci/badge_coverage_gen.py
         
+      - name: Remove coverage.xml file
+        run: rm -f coverage.xml
+      
       - uses: stefanzweifel/git-auto-commit-action@v4
 
 
