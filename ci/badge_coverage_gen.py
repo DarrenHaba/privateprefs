@@ -33,7 +33,7 @@ def set_readme_str(readme_str):
 def get_badge_link(percent, link, title="coverage", color=None, symbol: str = "%25"):
     if color is None:
         if 85 < percent <= 100:
-            color = "green"
+            color = "brightgreen"
         elif 60 < percent <= 85:
             color = "yellow"
         else:
