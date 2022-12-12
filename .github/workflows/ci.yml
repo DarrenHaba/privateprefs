@@ -25,7 +25,7 @@ jobs:
       
       - name: Test with pytest
         run: |
-          pytest --cov-report=xml --cov=privateprefs tests/
+          pytest --cov=privateprefs tests/
         
       - uses: stefanzweifel/git-auto-commit-action@v4
 
