@@ -30,7 +30,7 @@ def set_readme_str(readme_str):
         file.write(readme_str)
 
 
-def get_badge_link(percent, link, title="coverage", color=None, symbol: str = "%25"):
+def get_badge_link(percent, link, title="Coverage", color=None, symbol: str = "%25"):
     green = "31c653"
     yellow = "yellow"
     red = "red"
