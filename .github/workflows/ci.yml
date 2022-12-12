@@ -3,8 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  build:
-
+  run-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,6 +27,8 @@ jobs:
           pytest --cov=privateprefs tests/
         
       - uses: stefanzweifel/git-auto-commit-action@v4
+      
+
 
         
   
