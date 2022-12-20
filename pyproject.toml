@@ -31,6 +31,9 @@ Documentation = "https://github.com/unknown/privateprefs#readme"
 Issues = "https://github.com/unknown/privateprefs/issues"
 Source = "https://github.com/unknown/privateprefs"
 
+[project.scripts]
+privateprefs = "privateprefs.cli:cli_entry_point"
+
 [tool.hatch.version]
 path = "privateprefs/__about__.py"
 
@@ -38,6 +41,7 @@ path = "privateprefs/__about__.py"
 dependencies = [
   "pytest",
   "pytest-cov",
+  "privateprefs"
 ]
 [tool.hatch.envs.default.scripts]
 #cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=privateprefs --cov=tests {args}"

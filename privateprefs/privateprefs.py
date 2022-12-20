@@ -21,11 +21,11 @@ def _load_dict_from_file():
         return dict_form_text_file
 
 
-def save(key, value):
-    save_dict({key: value})
+def _save(key, value):
+    _save_dict({key: value})
 
 
-def save_dict(data: dict):
+def _save_dict(data: dict):
     dict_form_text_file = _load_dict_from_file()
     dict_form_text_file.update(data)
     _save_dict_to_file(dict_form_text_file)
@@ -36,12 +36,14 @@ def load(key, default_value = None):
     if key in dict_form_text_file.keys():
         return dict_form_text_file[key]
     if default_value is not None:
-        save(key, default_value)
+        _save(key, default_value)
     return default_value
 
 
-def load_dict(keys):
+def load_dict(keys = None):
     dict_form_text_file = _load_dict_from_file()
+    if keys is None:
+        return dict_form_text_file
     filtered_dict = {}
     for key in keys:
         if key in dict_form_text_file.keys():
