@@ -1,6 +1,7 @@
 import pytest
-
 import privateprefs
+
+from privateprefs.privateprefs import _save, _save_dict
 
 test_key = "test key"
 test_value = "test value"
@@ -34,13 +35,13 @@ def _save_dict_str_to_file(dict_str):
 
 
 def test_save():
-    privateprefs.save(test_key, test_value)
+    _save(test_key, test_value)
     str_form_text_file = _load_test_file_str()
     assert str_form_text_file == test_dict_as_str
 
 
 def test_save_dict():
-    privateprefs.save_dict(test_dict)
+    _save_dict(test_dict)
     str_form_text_file = _load_test_file_str()
     assert str_form_text_file == test_dict_as_str
 
