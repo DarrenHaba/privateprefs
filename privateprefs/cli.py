@@ -34,6 +34,22 @@ def load(arguments):
     print(f"loaded key='{arguments.key}' value='{prefs.load(arguments.key)}'")
 
 
+@command([argument("key", help="The key to delete the value of", nargs='?'),
+          argument("--all", action=argparse.BooleanOptionalAction, help="delete all")])
+def delete(arguments):
+    if arguments.all:
+        prefs.clear()
+        print(f"all prefs deleted")
+    else:
+        print(f"deleted key='{arguments.key}' value='{prefs.load(arguments.key)}'")
+        prefs.delete(arguments.key)
+
+
+@command()
+def list(args):
+    print_list()
+
+
 def print_list():
     print()
     print("prefs saved (key : value)")
@@ -48,7 +64,8 @@ def cli_entry_point():
     if args.command is None:
         parser.print_help()
         print_list()
-    elif args.command == "list":
-        print_list()
+    # elif args.command == "list":
+    #     print_list()
     else:
         args.func(args)
+

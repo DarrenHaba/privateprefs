@@ -11,6 +11,11 @@ def _save_dict_to_file(dict_form_text_file: dict):
         file.write(str_form_text_file)
 
 
+def _save_empty_file():
+    with open(path_to_test_file, "w") as file:
+        file.write("")
+
+
 def _load_dict_from_file():
     with open(path_to_test_file, "r") as file:
         str_form_text_file = file.read()
@@ -49,3 +54,19 @@ def load_dict(keys = None):
         if key in dict_form_text_file.keys():
             filtered_dict[key] = dict_form_text_file[key]
     return filtered_dict
+
+
+# todo unity test
+def clear():
+    _save_empty_file()
+
+
+# todo unity test
+def delete(key: str):
+    loaded_dict = _load_dict_from_file()
+    loaded_dict.pop(key)
+    is_dict_empty = loaded_dict == {}
+    if is_dict_empty:
+        _save_empty_file()
+    else:
+        _save_dict_to_file(loaded_dict)
