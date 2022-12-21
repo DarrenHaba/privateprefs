@@ -59,8 +59,12 @@ def print_list():
     print("------------------------------")
 
 
-def cli_entry_point():
-    args = parser.parse_args()
+def cli_entry_point(args=None):
+    if args is None:
+        args = parser.parse_args()
+    print("cli_entry_point()")
+    print(f"args {args}")
+
     if args.command is None:
         parser.print_help()
         print_list()
