@@ -2,4 +2,3 @@
 #
 # SPDX-License-Identifier: MIT
 from .privateprefs import *
-

@@ -1,6 +1,6 @@
 import argparse
-
 import privateprefs as prefs
+
 from privateprefs.privateprefs import _save
 
 parser = argparse.ArgumentParser()
@@ -64,8 +64,6 @@ def cli_entry_point():
     if args.command is None:
         parser.print_help()
         print_list()
-    # elif args.command == "list":
-    #     print_list()
     else:
         args.func(args)
 
