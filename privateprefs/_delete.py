@@ -1,5 +1,6 @@
 import pytest
-import argparse, sys
+import argparse
+import sys
 
 @pytest.mark.parametrize("option", ("-h", "--help"))
 def test_help(capsys, option):
