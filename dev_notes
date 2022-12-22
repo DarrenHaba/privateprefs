@@ -1,0 +1,13 @@
+install editable: https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs
+    hatch build
+    python -m pip install F:\Projects\Com\GitHub\privateprefs
+
+pypi usage
+    privateprefs save foo bar
+    privateprefs load foo
+
+local usages
+    # cd to privateprefs/privateprefs/_cli dir
+    python cli.py save foo bar
+    python cli.py load foo
+
