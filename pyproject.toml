@@ -32,7 +32,7 @@ Issues = "https://github.com/unknown/privateprefs/issues"
 Source = "https://github.com/unknown/privateprefs"
 
 [project.scripts]
-privateprefs = "privateprefs.cli:cli_entry_point"
+privateprefs = "privateprefs._cli.cli:main"
 
 [tool.hatch.version]
 path = "privateprefs/__about__.py"
