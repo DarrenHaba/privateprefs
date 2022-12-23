@@ -77,7 +77,6 @@ def test_load_dict_filtered():
 def test_load_dict_not_filtered():
     _save_dict_str_to_file("{'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}")
     ret = privateprefs.load_dict(None)
-    print(ret)
     assert ret['key1'] == 'value1' and ret['key2'] == 'value2' and ret['key3'] == 'value3'
 
 
