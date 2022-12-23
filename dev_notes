@@ -11,3 +11,9 @@ local usages
     python cli.py save foo bar
     python cli.py load foo
 
+
+# run pytest coverage
+    pytest --cov=privateprefs tests/
+
+# run pytest coverage (with missing line numbers)
+    pytest --cov-report term-missing --cov=privateprefs tests/
