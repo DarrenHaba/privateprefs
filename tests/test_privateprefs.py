@@ -68,10 +68,17 @@ def test_load_from_empty_file():
     assert privateprefs.load(test_key) is None
 
 
-def test_load_dict():
+def test_load_dict_filtered():
     _save_dict_str_to_file("{'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}")
     ret = privateprefs.load_dict(['key1', 'key3'])
     assert ret['key1'] == 'value1' and ret['key3'] == 'value3'
+
+
+def test_load_dict_not_filtered():
+    _save_dict_str_to_file("{'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}")
+    ret = privateprefs.load_dict(None)
+    print(ret)
+    assert ret['key1'] == 'value1' and ret['key2'] == 'value2' and ret['key3'] == 'value3'
 
 
 def test_load_dict_with_only_key_in_dict_text_file():
@@ -94,9 +101,17 @@ def test_clear():
 def test_delete():
     internal._save(test_key, test_value)
     internal._save("other test key", "other test value")
-    print(privateprefs.load(test_key))
     did_save_value = privateprefs.load(test_key) == test_value
     privateprefs.delete(test_key)
     did_delete_value = privateprefs.load(test_key) is None
     did_not_delete_other_test_value = privateprefs.load("other test key") == "other test value"
     assert all([did_save_value, did_delete_value, did_not_delete_other_test_value])
+
+
+def test_delete_empty_dict():
+    internal._save(test_key, test_value)
+    print(privateprefs.load(test_key))
+    did_save_value = privateprefs.load(test_key) == test_value
+    privateprefs.delete(test_key)
+    did_delete_value = privateprefs.load(test_key) is None
+    assert all([did_save_value, did_delete_value])
