@@ -1,16 +1,18 @@
 import argparse
 import privateprefs as prefs
-import privateprefs._cli as cli
+# noinspection PyProtectedMember
+import privateprefs.internal as internal
 
 
 def save(key, value):
     # noinspection PyProtectedMember
-    cli._save(key, value)
+    internal._save(key, value)
     print(f"saved key='{key}' value='{value}'")
 
 
 def load(key):
     print(f"loaded key='{key}' value='{prefs.load(key)}'")
+    return key
 
 
 # def delete(arguments):
@@ -36,7 +38,21 @@ def load(key):
 #     print("------------------------------")
 
 
-def main():
+# def main(argv=None):
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('--name', required=True)
+#     args = parser.parse_args(argv)
+#     print(f'Hello {args.name}')
+#
+# def test_main_even_simpler(capsys):
+#     main(["--name", "Jürgen"])
+#     captured = capsys.readouterr()
+#     print(5555555)
+#     print(captured)
+#     assert captured.out == "Hello Jürgen\n"
+
+
+def main(argv=None):
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest='subparser')
 
@@ -47,7 +63,7 @@ def main():
     parser_a = subparsers.add_parser('load')
     parser_a.add_argument("key")
 
-    kwargs = vars(parser.parse_args())
+    kwargs = vars(parser.parse_args(argv))
     globals()[kwargs.pop('subparser')](**kwargs)
 
 

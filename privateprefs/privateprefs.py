@@ -56,16 +56,14 @@ def load_dict(keys = None):
     return filtered_dict
 
 
-# todo unity test
 def clear():
     _save_empty_file()
 
 
-# todo unity test
 def delete(key: str):
     loaded_dict = _load_dict_from_file()
     loaded_dict.pop(key)
-    is_dict_empty = loaded_dict == {}
+    is_dict_empty = (loaded_dict == {})
     if is_dict_empty:
         _save_empty_file()
     else:
