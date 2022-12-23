@@ -1,9 +1,7 @@
 import pkg_resources
 import ast
 
-
 path_to_test_file = pkg_resources.resource_filename(__name__, 'data/prefs.txt')
-
 
 def _save_dict_to_file(dict_form_text_file: dict):
     str_form_text_file = str(dict_form_text_file)
@@ -45,7 +43,7 @@ def load(key, default_value = None):
     return default_value
 
 
-def load_dict(keys = None):
+def load_dict(keys=None):
     dict_form_text_file = _load_dict_from_file()
     if keys is None:
         return dict_form_text_file
