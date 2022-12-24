@@ -1,13 +1,5 @@
 import argparse
-import privateprefs.internal.cli as cli
-
-
-# def test_save():
-#     cli._save("Fee", "fi")
-#
-#
-# def test_load():
-#     assert False
+import privateprefs.cli as cli
 
 
 def test_save(capsys):
@@ -26,20 +18,20 @@ def test_load(capsys):
     assert captured.out.__contains__("bar")
 
 
-def main(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--name', required=True)
-    args = parser.parse_args(argv)
-    print(f'Hello {args.name}')
-
-
-# if __name__ == '__main__':
-#     sys.exit(main())
-
-
-def test_main_even_simpler(capsys):
-    main(["--name", "Jürgen"])
-    captured = capsys.readouterr()
-    print(5555555)
-    print(captured)
-    assert captured.out == "Hello Jürgen\n"
+# def main(argv=None):
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('--name', required=True)
+#     args = parser.parse_args(argv)
+#     print(f'Hello {args.name}')
+#
+#
+# # if __name__ == '__main__':
+# #     sys.exit(main())
+#
+#
+# def test_main_even_simpler(capsys):
+#     main(["--name", "Jürgen"])
+#     captured = capsys.readouterr()
+#     print(5555555)
+#     print(captured)
+#     assert captured.out == "Hello Jürgen\n"
