@@ -52,11 +52,13 @@ jobs:
       - name: Add pytest badge to README.md file
         run: python ci/badge_coverage_gen.py
         
-      - name: Clear data prefs.txt file
-        run: python ci/clear_data_file.py
-        
       - name: Remove coverage.xml file
         run: rm -f coverage.xml
+        
+      - name: Clear data prefs.txt file
+        run: |
+          cd privateprefs/data 
+          cp /dev/null prefs.txt  
       
       - uses: stefanzweifel/git-auto-commit-action@v4
 
