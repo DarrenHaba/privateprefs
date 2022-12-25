@@ -29,7 +29,7 @@ jobs:
           pytest --cov=privateprefs tests/
           
         
-  generate-coverage-badge:
+  generate-coverage-badge__clear-data-file:
     needs: run-tests
     runs-on: ubuntu-latest
     steps:
@@ -51,6 +51,9 @@ jobs:
           
       - name: Add pytest badge to README.md file
         run: python ci/badge_coverage_gen.py
+        
+      - name: Clear data prefs.txt file
+        run: python ci/clear_data_file.py
         
       - name: Remove coverage.xml file
         run: rm -f coverage.xml
