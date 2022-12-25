@@ -1,7 +1,3 @@
-
-# https://stackoverflow.com/questions/12229580/python-importing-a-sub-package-or-sub-module
-
-
 import argparse
 import privateprefs as prefs
 from privateprefs.privateprefs import _save
@@ -42,20 +38,6 @@ def print_list():
     else:
         print("list is empty: (no key-values saved yet)")
     print("-------------------------------------------------------------")
-
-
-# def main(argv=None):
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('--name', required=True)
-#     args = parser.parse_args(argv)
-#     print(f'Hello {args.name}')
-#
-# def test_main_even_simpler(capsys):
-#     main(["--name", "Jürgen"])
-#     captured = capsys.readouterr()
-#     print(5555555)
-#     print(captured)
-#     assert captured.out == "Hello Jürgen\n"
 
 
 def main(argv=None):
