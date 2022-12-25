@@ -58,19 +58,19 @@ def test_delete_all(capsys):
     assert all_key_value_deleted
 
 
-# def test_delete_key(capsys):
-#     with capsys.disabled():
-#         cli.main(["save", test_key, test_value])
-#     cli.main(["delete", test_key])
-#     capture = capsys.readouterr()
-#     test_value_deleted = capture.out.__contains__(test_value)
-#     assert test_value_deleted
-#
-#
-# def test_delete__no_args_given_error(capsys):
-#     try:
-#         cli.main(["delete"])
-#     except SystemExit:
-#         assert True
-#     else:
-#         assert False
+def test_delete_key(capsys):
+    with capsys.disabled():
+        cli.main(["save", test_key, test_value])
+    cli.main(["delete", test_key])
+    capture = capsys.readouterr()
+    test_value_deleted = capture.out.__contains__(test_value)
+    assert test_value_deleted
+
+
+def test_delete__no_args_given_error(capsys):
+    try:
+        cli.main(["delete"])
+    except SystemExit:
+        assert True
+    else:
+        assert False
