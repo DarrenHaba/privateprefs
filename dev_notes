@@ -5,12 +5,17 @@ install editable: https://pip.pypa.io/en/stable/topics/local-project-installs/#e
 pypi usage
     privateprefs save foo bar
     privateprefs load foo
+    privateprefs list
+    privateprefs delete foo
+    privateprefs delete --all
 
 local usages
     # cd to privateprefs/privateprefs/_cli dir
     python cli.py save foo bar
     python cli.py load foo
-
+    python cli.py list
+    python cli.py delete foo
+    python cli.py delete --all
 
 # run pytest coverage
     pytest --cov=privateprefs tests/
