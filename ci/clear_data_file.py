@@ -1,4 +1,4 @@
-from privateprefs import clear
+import privateprefs as prefs
 
 if __name__ == "__main__":
-    clear()
+    prefs.clear()
