@@ -48,3 +48,7 @@ def generate_badge():
     regex_pattern = r"\[\!\[Pytest - Coverage\].*"
     new_readme_str = re.sub(regex_pattern, get_badge_link(pct, url_link), get_readme_str())
     set_readme_str(new_readme_str)
+
+
+if __name__ == "__main__":
+    generate_badge()
