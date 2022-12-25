@@ -1,5 +1,3 @@
-import argparse
-
 import pkg_resources
 import re
 
@@ -13,7 +11,7 @@ url_link = "https://github.com/DarrenHaba/privateprefs/actions"
 
 def get_coverage_percentage() -> int:
     xml_doc = minidom.parse(path_to_coverage_xml)
-    elements = xml_doc.getElementsByTagName('package')
+    elements = xml_doc.getElementsByTagName('coverage')
     coverage_decimal = elements[0].attributes['line-rate'].value
     coverage_percentage = int(float(coverage_decimal) * 100)
     return coverage_percentage
@@ -50,12 +48,3 @@ def generate_badge():
     regex_pattern = r"\[\!\[Pytest - Coverage\].*"
     new_readme_str = re.sub(regex_pattern, get_badge_link(pct, url_link), get_readme_str())
     set_readme_str(new_readme_str)
-
-
-generate_badge()
-
-parser = argparse.ArgumentParser()
-
-if __name__ == "__main__":
-    print("Generating coverage badge()")
-    generate_badge()
