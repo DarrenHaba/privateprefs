@@ -10,19 +10,13 @@ test_dict = {'test key': 'test value'}
 test_dict_as_str = "{'test key': 'test value'}"
 
 
-def clear_text_file():
-    path_to_test_file = prefs.path_to_test_file
-    with open(path_to_test_file, "w") as file:
-        file.write("")
-
-
 @pytest.fixture(autouse=True)
-def setup_and_teardown_for_stuff():
+def setup_and_teardown():
     # set up
-    clear_text_file()
+    prefs.clear()
     yield
     # tear down
-    clear_text_file()
+    prefs.clear()
 
 
 def _load_test_file_str():
