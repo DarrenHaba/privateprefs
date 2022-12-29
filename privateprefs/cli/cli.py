@@ -1,20 +1,38 @@
 import argparse
 import privateprefs as prefs
+
 from privateprefs.privateprefs import _save
 
 
-def save(key, value):
+def save_(key: str, value: str) -> None:
+    """
+    Saves a value under a given key.
+    :param key: The key used to save a value to
+    :param value: The value to save/write to persistent storage
+    :return: None
+    """
     # noinspection PyProtectedMember
     _save(key, value)
     print(f"saved key='{key}' value='{value}'")
 
 
-def load(key):
+def load_(key: str) -> None:
+    """
+    Loads a value from a given key.
+    :param key: The key to load a value from
+    :return: None
+    """
     value = prefs.load(key)
     print(f"loaded key='{key}' value='{value}'")
 
 
-def delete(key, delete_all):
+def delete_(key: str, delete_all: bool = False) -> None:
+    """
+    Deletes a key-value pair, or deletes all stored key-value pairs.
+    :param key: The key to be deleted
+    :param delete_all: Flag is set to true will delete all key-value pairs
+    :return: None
+    """
     if delete_all:
         prefs.clear()
         print(f"all prefs deleted")
@@ -23,11 +41,17 @@ def delete(key, delete_all):
         prefs.delete(key)
 
 
-def list():
+def list_() -> None:
+    """
+    Displays a list of all saved key-value pairs.
+    """
     print_list()
 
 
-def print_list():
+def print_list() -> None:
+    """
+    Prints out a list of all saved key-value pairs.
+    """
     print()
     print("stored (key  :  value)")
     print("-------------------------------------------------------------")
@@ -36,23 +60,44 @@ def print_list():
         for key, value in prefs.load_dict().items():
             print(key, '  :  ', value)
     else:
-        print("list is empty: (no key-values saved yet)")
+        print("list is empty: (no key-value pairs saved yet)")
     print("-------------------------------------------------------------")
 
 
-def main(argv=None):
+def main(argv=None) -> None:
+    """
+    This main function is the entry point for our CLI in our package.
+
+    In the project.toml file under [project.scripts] is a line code that invokes
+    this method. This method instantiate argparse and instantiates sub-commands
+    then injects the sub-commands into the global namespace cache.
+    :param argv: Injected arguments when running unit tests, and None when called
+    from the command line
+    """
+
+    # Instantiate argparse and a sub-parsers
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest='subparser')
 
+    # The Save sub-parsers.
+    # A function called 'save_' will be dynamically called when the 'save' command is invoked
     parser_save = subparsers.add_parser("save")
     parser_save.add_argument("key")
     parser_save.add_argument("value")
 
+    # The Load sub-parsers.
+    # A function called 'load_' will be dynamically called when the 'load' command is invoked
     parser_load = subparsers.add_parser("load")
     parser_load.add_argument("key")
 
+    # The List sub-parsers.
+    # A function called 'list_' will be dynamically called when the 'list' command is invoked
     subparsers.add_parser("list")
 
+    # The Delete sub-parsers.
+    # A function called 'delete_' will be dynamically called when the 'delete' command is invoked
+    # Note that only the 'key' or '--all' argument is required, depending on if we want to delete
+    # single key-value pair or all key-value pairs.
     parser_delete = subparsers.add_parser("delete")
     parser_delete.add_argument('key', nargs='?')
     parser_delete.add_argument("--all",
@@ -63,8 +108,19 @@ def main(argv=None):
     if no_args_given:
         raise parser.error("you must enter a key string argument or enter the '--all' flag")
 
+    # To make argparse sub-parsers easier to deal with, we set up one function per sub-parser.
+
+    # Extract a dict containing the name of the sub processor invoked and its arguments
     kwargs = vars(parser.parse_args(argv))
-    globals()[kwargs.pop('subparser')](**kwargs)
+    # Extract the name of the subcommand being invoked, note we pop/remove the subcommand name,
+    # so now kwargs will be just the given arguments without the subcommand in the dict.
+    func_name_to_call = kwargs.pop('subparser')  # will be: save, load, delete, etc
+    # Are functions and with an underscore to add that here.
+    # The underscore is to avoid our function named list from overwriting the global list name.
+    func_name_to_call = f"{func_name_to_call}_"
+    # We need to dynamically call one of the save(), load(), delete(), etc functions,
+    # We dynamically call the function from the globals namespace dictionary, passing in the arguments.
+    globals()[func_name_to_call](**kwargs)
 
 
 if __name__ == '__main__':
