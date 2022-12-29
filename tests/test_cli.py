@@ -44,7 +44,7 @@ def test_list(capsys):
 def test_list_empty(capsys):
     cli.main(["list"])
     capture = capsys.readouterr()
-    displays_empty_list = capture.out.__contains__("list is empty: (no key-values saved yet)")
+    displays_empty_list = capture.out.__contains__("list is empty: (no key-value pairs saved yet)")
     assert displays_empty_list
 
 
