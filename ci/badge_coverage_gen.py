@@ -85,5 +85,5 @@ def generate_badge() -> None:
 
 
 if __name__ == "__main__":
-    # The CI runs this module, so we need to trigger the badge generator here when this module runs.
+    # When the CI runs this module, so we need to trigger the badge generator here.
     generate_badge()
