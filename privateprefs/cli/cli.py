@@ -6,8 +6,8 @@ from privateprefs.privateprefs import _save
 
 def save_(key: str, value: str) -> None:
     """
-    Saves a value under a given key.
-    :param key: The key used to save a value to
+    Saves a value for a given key.
+    :param key: The key used to save the value to
     :param value: The value to save/write to persistent storage
     :return: None
     """
@@ -44,6 +44,7 @@ def delete_(key: str, delete_all: bool = False) -> None:
 def list_() -> None:
     """
     Displays a list of all saved key-value pairs.
+    :return: None
     """
     print_list()
 
@@ -51,6 +52,7 @@ def list_() -> None:
 def print_list() -> None:
     """
     Prints out a list of all saved key-value pairs.
+    :return: None
     """
     print()
     print("stored (key  :  value)")
@@ -73,6 +75,7 @@ def main(argv=None) -> None:
     then injects the sub-commands into the global namespace cache
     :param argv: Injected arguments when running unit tests, and None when called
     from the command line
+    :return: None
     """
 
     # Instantiate argparse and a sub-parsers
