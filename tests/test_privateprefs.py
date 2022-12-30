@@ -46,11 +46,6 @@ def test_load():
     assert prefs.load(test_key) == test_value
 
 
-def test_load_default_value():
-    _save_dict_str_to_file("")
-    assert prefs.load(test_key, "default value") == "default value"
-
-
 def test_load_default_value_null():
     _save_dict_str_to_file("")
     assert prefs.load(test_key) is None
