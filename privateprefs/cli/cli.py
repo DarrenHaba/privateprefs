@@ -64,6 +64,7 @@ def print_list() -> None:
     else:
         print("list is empty: (no key-value pairs saved yet)")
     print("-------------------------------------------------------------")
+    print()
 
 
 def main(argv=None) -> None:
