@@ -4,7 +4,7 @@ import ast
 path_to_test_file = pkg_resources.resource_filename(__name__, 'data/prefs.txt')
 
 
-def load(key, default_value=None) -> str:
+def load(key) -> str | None:
     """
     Loads a value from a given key.
     :param key: The key to load a value from
@@ -13,9 +13,8 @@ def load(key, default_value=None) -> str:
     dict_form_text_file = _load_dict_from_file()
     if key in dict_form_text_file.keys():
         return dict_form_text_file[key]
-    if default_value is not None:
-        _save(key, default_value)
-    return default_value
+    else:
+        return None
 
 
 def load_dict(keys: list = None) -> dict:
