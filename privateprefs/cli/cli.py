@@ -70,7 +70,7 @@ def main(argv=None) -> None:
 
     In the project.toml file under [project.scripts] is a line code that invokes
     this method. This method instantiate argparse and instantiates sub-commands
-    then injects the sub-commands into the global namespace cache.
+    then injects the sub-commands into the global namespace cache
     :param argv: Injected arguments when running unit tests, and None when called
     from the command line
     """
@@ -78,6 +78,8 @@ def main(argv=None) -> None:
     # Instantiate argparse and a sub-parsers
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest='subparser')
+
+    # To make argparse sub-parsers easier to deal with, we set up one function per subparsers.
 
     # The Save sub-parsers.
     # A function called 'save_' will be dynamically called when the 'save' command is invoked
@@ -108,16 +110,16 @@ def main(argv=None) -> None:
     if no_args_given:
         raise parser.error("you must enter a key string argument or enter the '--all' flag")
 
-    # To make argparse sub-parsers easier to deal with, we set up one function per sub-parser.
-
     # Extract a dict containing the name of the sub processor invoked and its arguments
     kwargs = vars(parser.parse_args(argv))
+
     # Extract the name of the subcommand being invoked, note we pop/remove the subcommand name,
     # so now kwargs will be just the given arguments without the subcommand in the dict.
-    func_name_to_call = kwargs.pop('subparser')  # will be: save, load, delete, etc
-    # Are functions and with an underscore to add that here.
-    # The underscore is to avoid our function named list from overwriting the global list name.
+    func_name_to_call = kwargs.pop('subparser')  # will be: save, load, delete, etc.
+
+    # Functions end with underscore to avoid overwriting global names 'list', so we add the underscore here.
     func_name_to_call = f"{func_name_to_call}_"
+
     # We need to dynamically call one of the save(), load(), delete(), etc functions,
     # We dynamically call the function from the globals namespace dictionary, passing in the arguments.
     globals()[func_name_to_call](**kwargs)

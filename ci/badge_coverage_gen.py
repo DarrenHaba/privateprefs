@@ -54,15 +54,15 @@ def get_badge_link(percent: int,
     Generates a custom badge using the shields.io API, we manually set the parameters to make
     this a coverage badge, but we could make any kind of badge using different parameters.
     See docs here: https://shields.io/category/coverage
-    :param percent: The code coverage percentage.
-    :param link: The URL opened when badge is clicked.
-    :param title: The text/title on the left side of the badge.
-    :param color: The badge color, if set the badge will never change from this color.
-    :param symbol: The symbol appended to the end of the percentage, defaults to "%25" (for percentage).
-    :param green: The badge color when coverage percent is over 85%.
-    :param yellow: The badge color when coverage percent is between 60% and 85%.
-    :param red: The badge color when coverage percent is under 60%.
-    :return: A string that will show up as a badge in README.md file.
+    :param percent: The code coverage percentage
+    :param link: The URL opened when badge is clicked
+    :param title: The text/title on the left side of the badge
+    :param color: The badge color, if set the badge will never change from this color
+    :param symbol: The symbol appended to the end of the percentage, defaults to "%25" (for percentage)
+    :param green: The badge color when coverage percent is over 85%
+    :param yellow: The badge color when coverage percent is between 60% and 85%
+    :param red: The badge color when coverage percent is under 60%
+    :return: A string that will show up as a badge in README.md file
     """
     if color is None:
         if 85 < percent <= 100:
@@ -77,6 +77,7 @@ def get_badge_link(percent: int,
 def generate_badge() -> None:
     """
     Generates a coverage badge, searches and replaces the existing badge in the README.md file
+    :return: None
     """
     pct = get_coverage_percentage()
     regex_pattern = r"\[\!\[Pytest - Coverage\].*"

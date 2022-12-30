@@ -3,18 +3,19 @@ import ast
 
 path_to_test_file = pkg_resources.resource_filename(__name__, 'data/prefs.txt')
 
-def _save_dict_to_file(dict_form_text_file: dict):
+
+def _save_dict_to_file(dict_form_text_file: dict) -> None:
     str_form_text_file = str(dict_form_text_file)
     with open(path_to_test_file, "w") as file:
         file.write(str_form_text_file)
 
 
-def _save_empty_file():
+def _save_empty_file() -> None:
     with open(path_to_test_file, "w") as file:
         file.write("")
 
 
-def _load_dict_from_file():
+def _load_dict_from_file() -> dict:
     with open(path_to_test_file, "r") as file:
         str_form_text_file = file.read()
         if str_form_text_file == "":
@@ -24,11 +25,11 @@ def _load_dict_from_file():
         return dict_form_text_file
 
 
-def _save(key, value):
+def _save(key, value) -> None:
     _save_dict({key: value})
 
 
-def _save_dict(data: dict):
+def _save_dict(data: dict) -> None:
     dict_form_text_file = _load_dict_from_file()
     dict_form_text_file.update(data)
     _save_dict_to_file(dict_form_text_file)
