@@ -4,7 +4,7 @@ import privateprefs as prefs
 from privateprefs.privateprefs import _save
 
 
-def save_(key: str, value: str) -> None:
+def _save_cli(key: str, value: str) -> None:
     """
     Saves a value for a given key.
     :param key: The key used to save the value to
@@ -16,7 +16,7 @@ def save_(key: str, value: str) -> None:
     print(f"saved key='{key}' value='{value}'")
 
 
-def load_(key: str) -> None:
+def _load_cli(key: str) -> None:
     """
     Loads a value from a given key.
     :param key: The key to load a value from
@@ -26,7 +26,7 @@ def load_(key: str) -> None:
     print(f"loaded key='{key}' value='{value}'")
 
 
-def delete_(key: str, delete_all: bool = False) -> None:
+def _delete_cli(key: str, delete_all: bool = False) -> None:
     """
     Deletes a key-value pair, or deletes all stored key-value pairs.
     :param key: The key to be deleted
@@ -41,7 +41,7 @@ def delete_(key: str, delete_all: bool = False) -> None:
         prefs.delete(key)
 
 
-def list_() -> None:
+def _list_cli() -> None:
     """
     Displays a list of all saved key-value pairs.
     :return: None
@@ -121,8 +121,8 @@ def main(argv=None) -> None:
     # so now kwargs will be just the given arguments without the subcommand in the dict.
     func_name_to_call = kwargs.pop('subparser')  # will be: save, load, delete, etc.
 
-    # Functions end with underscore to avoid overwriting global names 'list', so we add the underscore here.
-    func_name_to_call = f"{func_name_to_call}_"
+    # The private functions end with an underscore and in with _cli, so we add it here.
+    func_name_to_call = f"_{func_name_to_call}_cli"
 
     # We need to dynamically call one of the save(), load(), delete(), etc functions,
     # We dynamically call the function from the globals namespace dictionary, passing in the arguments.
