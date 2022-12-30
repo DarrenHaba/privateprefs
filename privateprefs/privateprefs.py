@@ -4,11 +4,11 @@ import ast
 path_to_test_file = pkg_resources.resource_filename(__name__, 'data/prefs.txt')
 
 
-def load(key) -> str | None:
+def load(key: str) -> str | None:
     """
-    Loads a value from a given key.
-    :param key: The key to load a value from
-    :return: The value stored
+    Loads a value for a given key.
+    :param key: A lookup key
+    :return: The stored value or None
     """
     dict_form_text_file = _load_dict_from_file()
     if key in dict_form_text_file.keys():
@@ -43,7 +43,7 @@ def clear() -> None:
 
 def delete(key: str) -> None:
     """
-    Delete a key-value pair.
+    Delete the value for a given key.
     :param key: The key to delete the value of
     :return: None
     """
@@ -83,7 +83,7 @@ def _load_dict_from_file() -> dict:
 
 def _save_empty_file() -> None:
     """
-    Deletes all stored key-value pairs by writing a blank string to saved .txt file
+    Deletes all stored key-value pairs by writing a blank string to stored .txt file
     :return: None
     """
     with open(path_to_test_file, "w") as file:
@@ -94,7 +94,7 @@ def _save(key, value) -> None:
     """
     Saves a value inside the given key.
     :param key: The key used to save the value to
-    :param value: The value to save/write to persistent storage
+    :param value: The value to save
     :return: None
     """
     _save_dict({key: value})
