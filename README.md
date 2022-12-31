@@ -32,8 +32,8 @@ Use ``pip`` to install these utilities::
 Usage
 ------------
 #### Save value
-must run from command line
-```sm
+```sh
+# run from terminal 
 privateprefs save "My Key" "My Value"
 ```
 
