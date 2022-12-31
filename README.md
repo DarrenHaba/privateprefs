@@ -35,22 +35,23 @@ In late stages of alpha testing, currently setting up CI pipeline, writing docs,
 
 Installation
 ------------
-Use ``pip`` to install these utilities::
-
-    pip install privateprefs
+Use ``pip`` to install these utilities
+```sh
+pip install -i https://test.pypi.org/simple/ privateprefs
+```
 
 Usage
 ------------
-#### Save value
+#### Save string
 ```sh
 # run from command line
-privateprefs save "My Key" "My Value"
+privateprefs save "my api key" "abcd4321"
 ```
 
-#### Load value
+#### Load string
 ```python
 import privateprefs as prefs
-prefs.load("My Key")
+prefs.load("my api key")
 ```
 
 ### License
