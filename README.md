@@ -1,6 +1,11 @@
 # PrivatePrefs
 
-### PrivatePrefs - Easily keep sensitive data like API Keys, passwords, email addresses, usernames, etc. out of version control frameworks like GitHub 
+### Easily Keep API Keys out of GitHub 
+
+It's often tempting to hard code sensitive data like API Keys, passwords, email addresses, usernames, etc directly into python scripts, but if it's checked into Version Control and pushed to public repository on GitHub, GitLab or Bitbucket, then your sensitive personal data will be compromised.
+
+If sensitive data does end up in a public Repository it can be a real pain to remove, because you have to delete the sensitive data, purge it from the history, have github purge their cache. After the that you will still need to change your password or API Keys 😱. 
+
 
 [![Pytest - Coverage](https://img.shields.io/badge/Coverage-100%25-31c653)](https://github.com/DarrenHaba/privateprefs/actions)
 [![Package CI](https://github.com/DarrenHaba/privateprefs/actions/workflows/ci.yml/badge.svg)](https://github.com/DarrenHaba/privateprefs/actions/workflows/ci.yml)
