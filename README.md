@@ -20,20 +20,24 @@ In late stages of alpha testing, currently setting up CI pipeline, writing docs,
 **Table of Contents**
 
 - [Installation](#installation)
+- [Usage](#usage)
 - [License](#license)
 
-### Installation
-```console
-pip install privateprefs
-```
+Installation
+------------
+Use ``pip`` to install these utilities::
 
-### Save value
+    pip install privateprefs
+
+Usage
+------------
+#### Save value
 must run from command line
-```console
+```sm
 privateprefs save "My Key" "My Value"
 ```
 
-### Load value
+#### Load value
 ```python
 import privateprefs as prefs
 prefs.load("My Key")
