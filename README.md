@@ -43,7 +43,7 @@ Usage
 ------------
 #### Save value
 ```sh
-# run from terminal 
+# run from command line
 privateprefs save "My Key" "My Value"
 ```
 
