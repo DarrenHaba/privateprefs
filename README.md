@@ -4,7 +4,12 @@
 
 It's often tempting to hard code sensitive data like API Keys, passwords, email addresses, usernames, etc directly into python scripts, but if it's checked into Version Control and pushed to public repository on GitHub, GitLab or Bitbucket, then your sensitive personal data will be compromised.
 
-If sensitive data does end up in a public Repository it can be a real pain to remove, because you have to delete the sensitive data, purge it from the history, have github purge their cache. After the that you will still need to change your password or API Keys 😱. 
+If sensitive data does end up in a public Repository it can be a real pain to remove, because you have to delete the sensitive data, purge it from the history, have github purge their cache. After the that you will still need to change your password or API Keys 😱.
+
+This could have been prevented by using PrivatePrefs 😎. It's works by requiring you to enter sensitive information into the command line, then retrieve it using python, hopefully eliminating the temptation to hard code it. See here for more info (LINK TO HOW IT WORKS) 
+
+
+
 
 
 [![Pytest - Coverage](https://img.shields.io/badge/Coverage-100%25-31c653)](https://github.com/DarrenHaba/privateprefs/actions)
