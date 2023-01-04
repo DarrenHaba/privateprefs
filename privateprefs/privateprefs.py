@@ -35,7 +35,7 @@ def load_dict(keys: list = None) -> dict:
     return filtered_dict
 
 
-def clear() -> None:
+def delete_all() -> None:
     """
     Deletes all stored key-value pairs.
     :return: None

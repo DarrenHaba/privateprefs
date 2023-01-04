@@ -1,4 +1,3 @@
-# noinspection PyProtectedMember
 import pytest
 import privateprefs as prefs
 # noinspection PyProtectedMember
@@ -13,10 +12,10 @@ test_dict_as_str = "{'test key': 'test value'}"
 @pytest.fixture(autouse=True)
 def setup_and_teardown():
     # set up
-    prefs.clear()
+    prefs.delete_all()
     yield
     # tear down
-    prefs.clear()
+    prefs.delete_all()
 
 
 def _load_test_file_str():
@@ -79,9 +78,9 @@ def test_load_dict_from_empty_file():
     assert prefs.load_dict(test_key) == {}
 
 
-def test_clear():
+def test_delete_all():
     _save(test_key, test_value)
-    prefs.clear()
+    prefs.delete_all()
     assert prefs.load(test_key) is None
 
 
