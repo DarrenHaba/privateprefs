@@ -1,7 +1,7 @@
 import pytest
 import privateprefs as prefs
 # noinspection PyProtectedMember
-from privateprefs.privateprefs import _save, _save_dict
+from privateprefs.privateprefs import _save, _save_dict, _path_to_test_file
 
 test_key = "test key"
 test_value = "test value"
@@ -19,12 +19,12 @@ def setup_and_teardown():
 
 
 def _load_test_file_str():
-    with open(prefs.path_to_test_file, "r") as file:
+    with open(_path_to_test_file, "r") as file:
         return file.read()
 
 
 def _save_dict_str_to_file(dict_str):
-    with open(prefs.path_to_test_file, "w") as file:
+    with open(_path_to_test_file, "w") as file:
         file.write(dict_str)
 
 

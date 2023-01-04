@@ -3,7 +3,7 @@ from __future__ import annotations
 import pkg_resources
 import ast
 
-path_to_test_file = pkg_resources.resource_filename(__name__, 'data/prefs.txt')
+_path_to_test_file = pkg_resources.resource_filename(__name__, 'data/prefs.txt')
 
 
 def load(key: str) -> str | None:
@@ -65,7 +65,7 @@ def _save_dict_to_file(date: dict) -> None:
     :return: None
     """
     str_form_text_file = str(date)
-    with open(path_to_test_file, "w") as file:
+    with open(_path_to_test_file, "w") as file:
         file.write(str_form_text_file)
 
 
@@ -74,7 +74,7 @@ def _load_dict_from_file() -> dict:
     Loads a string from a .txt file and converts it to the returned dict
     :return: A dict containing key-value pairs
     """
-    with open(path_to_test_file, "r") as file:
+    with open(_path_to_test_file, "r") as file:
         str_form_text_file = file.read()
         if str_form_text_file == "":
             dict_form_text_file = {}
@@ -88,7 +88,7 @@ def _save_empty_file() -> None:
     Deletes all stored key-value pairs by writing a blank string to stored .txt file
     :return: None
     """
-    with open(path_to_test_file, "w") as file:
+    with open(_path_to_test_file, "w") as file:
         file.write("")
 
 
