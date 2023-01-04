@@ -57,7 +57,7 @@ jobs:
         
       - name: Clear data prefs.txt file
         run: |
-          cd privateprefs/data 
+          cd privateprefs/internal/data 
           cp /dev/null prefs.txt  
       
       - uses: stefanzweifel/git-auto-commit-action@v4
