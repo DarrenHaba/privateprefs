@@ -34,7 +34,7 @@ def _delete_cli(key: str, delete_all: bool = False) -> None:
     :return: None
     """
     if delete_all:
-        prefs.clear()
+        prefs.delete_all()
         print(f"all prefs deleted")
     else:
         print(f"deleted key='{key}' value='{prefs.load(key)}'")
