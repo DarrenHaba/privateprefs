@@ -1,7 +1,8 @@
 import argparse
-import privateprefs as prefs
+# import privateprefs as prefs
 
-from privateprefs.privateprefs import _save
+# from privateprefs.privateprefs import _save
+import privateprefs.internal.data_serializer as ds
 
 
 def _save_cli(key: str, value: str) -> None:
@@ -12,7 +13,7 @@ def _save_cli(key: str, value: str) -> None:
     :return: None
     """
     # noinspection PyProtectedMember
-    _save(key, value)
+    ds.save(key, value)
     print(f"saved key='{key}' value='{value}'")
 
 
@@ -22,7 +23,7 @@ def _load_cli(key: str) -> None:
     :param key: The key to load a value from
     :return: None
     """
-    value = prefs.load(key)
+    value = ds.load(key)
     print(f"loaded key='{key}' value='{value}'")
 
 
@@ -34,11 +35,11 @@ def _delete_cli(key: str, delete_all: bool = False) -> None:
     :return: None
     """
     if delete_all:
-        prefs.delete_all()
+        ds.delete_all()
         print(f"all prefs deleted")
     else:
-        print(f"deleted key='{key}' value='{prefs.load(key)}'")
-        prefs.delete(key)
+        print(f"deleted key='{key}' value='{ds.load(key)}'")
+        ds.delete(key)
 
 
 def _list_cli() -> None:
@@ -57,9 +58,9 @@ def print_list() -> None:
     print()
     print("stored (key  :  value)")
     print("-------------------------------------------------------------")
-    d = prefs.load_dict()
+    d = ds.load_dict()
     if len(d) > 0:
-        for key, value in prefs.load_dict().items():
+        for key, value in ds.load_dict().items():
             print(key, '  :  ', value)
     else:
         print("list is empty: (no key-value pairs saved yet)")

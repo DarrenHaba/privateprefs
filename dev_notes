@@ -2,6 +2,11 @@ install editable: https://pip.pypa.io/en/stable/topics/local-project-installs/#e
     hatch build
     python -m pip install F:\Projects\Com\GitHub\privateprefs
 
+publish
+    update __about__.py version
+    hatch build
+    hatch publish
+
 pypi usage
     privateprefs save foo bar
     privateprefs load foo
