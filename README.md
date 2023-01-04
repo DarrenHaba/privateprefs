@@ -35,14 +35,14 @@ pip install -i https://test.pypi.org/simple/ privateprefs
 Quick Start
 ------------
 #### Save string
-###### <sub> *run from command line* </sub>
+###### *run from command line*
 ```sh
 privateprefs save "my key" "abcd4321"
 ```
 &nbsp;
 
 #### Load string
-###### <sub> *run in python* </sub>
+###### *run in python*
 ```python
 import privateprefs as prefs
 prefs.load("my key")
