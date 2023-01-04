@@ -27,9 +27,9 @@ dependencies = []
 dynamic = ["version"]
 
 [project.urls]
-Documentation = "https://github.com/unknown/privateprefs#readme"
-Issues = "https://github.com/unknown/privateprefs/issues"
-Source = "https://github.com/unknown/privateprefs"
+Documentation = "https://github.com/DarrenHaba/privateprefs#readme"
+Issues = "https://github.com/DarrenHaba/privateprefs/issues"
+Source = "https://github.com/DarrenHaba/privateprefs"
 
 [project.scripts]
 privateprefs = "privateprefs.internal.cli:main"
