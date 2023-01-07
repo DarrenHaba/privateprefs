@@ -28,7 +28,7 @@ def write(key: str, value: str) -> None:
 def read(key: str) -> str | None:
     """
     Reads and returns the value for a given key from the data.ini file.
-    :param key: A key to read the given value of
+    :param key: A key to read the value of
     :return: The value stored under the given key, or None if the key does not exist
     """
     data_file_config = _get_config_parser_for_data_ini_file()
