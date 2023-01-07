@@ -14,7 +14,6 @@ SECTION_NAME = PROJECT_NAME
 def write(key: str, value: str) -> None:
     """
     Write a key-value pair to the data.ini file.
-    :param key: A key (unique identifier) used to write a single value to
     :param key: A unique key to write the value under
     :param value: The value to be stored
     :return: None
