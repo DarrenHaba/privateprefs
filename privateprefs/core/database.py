@@ -41,7 +41,7 @@ def read(key: str) -> str | None:
 
 def read_keys(keys: list = None, return_as_list: bool = False) -> dict | list:
     """
-    Reads and returns key-value pairs for a given keys.
+    Reads and returns key-value pairs for the given keys.
     :param keys: List of keys to return, by default all key-value pairs will be returned.
     :param return_as_list: If true a list of tuples will be returned, If false the default dict will be returned
     :return: A dict of key-value pairs by default, or a list of tuples.
