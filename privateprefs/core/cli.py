@@ -52,6 +52,16 @@ def _list_cli() -> None:
     print_key_value_table()
 
 
+def _path_cli() -> None:
+    """
+    Displays a table of all saved key-value pairs.
+    :return: None
+    """
+    print()
+    print(f"data.ini file path: {_db.PATH_TO_DATA_FILE}")
+    print()
+
+
 def print_key_value_table() -> None:
     """
     Prints out a table of all saved key-value pairs.
@@ -108,19 +118,23 @@ def main(argv=None) -> None:
     # To make argparse sub-parsers easier to deal with, we set up one function per subparsers.
 
     # The Save sub-parsers.
-    # A function called 'save_' will be dynamically called when the 'save' command is invoked
+    # A function called '_save_cli' will be dynamically called when the 'save' command is invoked
     parser_save = subparsers.add_parser("save")
     parser_save.add_argument("key")
     parser_save.add_argument("value")
 
     # The Load sub-parsers.
-    # A function called 'load_' will be dynamically called when the 'load' command is invoked
+    # A function called '_load_cli' will be dynamically called when the 'load' command is invoked
     parser_load = subparsers.add_parser("load")
     parser_load.add_argument("key")
 
     # The List sub-parsers.
-    # A function called 'list_' will be dynamically called when the 'list' command is invoked
+    # A function called '_list_cli' will be dynamically called when the 'list' command is invoked
     subparsers.add_parser("list")
+
+    # The Path sub-parsers.
+    # A function called '_path_cli' will be dynamically called when the 'path' command is invoked
+    subparsers.add_parser("path")
 
     # The Delete sub-parsers.
     # A function called 'delete_' will be dynamically called when the 'delete' command is invoked
@@ -134,7 +148,11 @@ def main(argv=None) -> None:
     args = parser.parse_args(argv)
     no_args_given = args.subparser == "delete" and args.key is None and args.delete_all is False
     if no_args_given:
-        raise parser.error("you must enter a key string argument or enter the '--all' flag")
+        print()
+        raise parser.error("\nplease enter a key string argument e.g.:\n"
+                           "privateprefs delete 'my key'\n"
+                           "or to delete all key-value pairs use the '--all' flag e.g.\n"
+                           "privateprefs delete --all\n")
 
     # Extract a dict containing the name of the sub processor invoked and its arguments
     kwargs = vars(parser.parse_args(argv))
