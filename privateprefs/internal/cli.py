@@ -150,9 +150,4 @@ def main(argv=None) -> None:
 
 
 if __name__ == '__main__':
-    # main()
-    # _save_cli("fooooooooo", "barrs")
-    # _save_cli("goooood", "byee")
-    # _save_cli("payyyyyssss", "dafeeeee")
-    _delete_cli(delete_all=True)
-    print_key_value_table()
+    main()
