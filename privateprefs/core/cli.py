@@ -26,8 +26,6 @@ def _load_cli(key: str) -> None:
 
 def _delete_cli(key: str = None, delete_all: bool = False) -> None:
     """
-
-
     :param key: A key that will be used to delete the corresponding key-value pair
     :return: None
 
@@ -59,6 +57,19 @@ def _path_cli() -> None:
     """
     print()
     print(f"data.ini file path: {_db.PATH_TO_DATA_FILE}")
+    print()
+
+
+def _pre_uninstall_cli() -> None:
+    """
+    Removes all persistent files and folders created by this package.
+    :return: None
+    """
+    _db.pre_uninstall()
+    print()
+    print(f"removed all persistent files and folders created by this package")
+    print(f"to uninstall this package run:")
+    print(f"pip uninstall privateprefs")
     print()
 
 
@@ -135,6 +146,10 @@ def main(argv=None) -> None:
     # The Path sub-parsers.
     # A function called '_path_cli' will be dynamically called when the 'path' command is invoked
     subparsers.add_parser("path")
+
+    # The Path sub-parsers.
+    # A function called '_pre_uninstall_cli' will be dynamically called when the 'pre_uninstall' command is invoked
+    subparsers.add_parser("pre_uninstall")
 
     # The Delete sub-parsers.
     # A function called 'delete_' will be dynamically called when the 'delete' command is invoked
