@@ -1,6 +1,6 @@
 import pytest
 
-from privateprefs.internal.cli import main
+from privateprefs.core.cli import main
 
 test_key = "test key"
 test_key2 = "test key2"
