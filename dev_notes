@@ -15,7 +15,7 @@ pypi usage
     privateprefs delete --all
 
 local usages
-    # cd to privateprefs/privateprefs/_cli dir
+    # cd to privateprefs/privateprefs/core dir
     python cli.py save foo bar
     python cli.py load foo
     python cli.py list
