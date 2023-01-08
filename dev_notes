@@ -1,10 +1,23 @@
-install editable: https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs
+install local editable: https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs
+    python -m pip install -e F:\Projects\Com\GitHub\privateprefs
+    python -m pip uninstall privateprefs
+
+install local non-editable:
     hatch build
     python -m pip install F:\Projects\Com\GitHub\privateprefs
+    python -m pip install F:\Projects\Com\GitHub\privateprefs --upgrade
+    python -m pip uninstall privateprefs
+
+install pypi
+    pip install privateprefs
+    pip install privateprefs --upgrade
+    pip install privateprefs --U
+    pip uninstall privateprefs
 
 publish
     -update version in __about__.py
     -push to GitHub (ensure ci passes)
+    -install/run locally
     hatch build
     hatch publish
 
