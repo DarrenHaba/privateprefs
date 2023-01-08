@@ -54,11 +54,6 @@ jobs:
         
       - name: Remove coverage.xml file
         run: rm -f coverage.xml
-        
-      - name: Clear data prefs.txt file
-        run: |
-          cd privateprefs/internal/data 
-          cp /dev/null prefs.txt  
       
       - uses: stefanzweifel/git-auto-commit-action@v4
 
