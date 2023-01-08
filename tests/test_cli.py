@@ -11,10 +11,10 @@ test_value2 = "test value2"
 @pytest.fixture(autouse=True)
 def setup_and_teardown():
     # set up
-    main(["delete", "--all"])
+    main(["delete_all"])
     yield
     # tear down
-    main(["delete", "--all"])
+    main(["delete_all"])
 
 
 def test__save(capsys):
@@ -54,7 +54,7 @@ def test__delete__all(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
         main(["save", test_key2, test_value2])
-    main(["delete", "--all"])
+    main(["delete_all"])
     capture = capsys.readouterr()
     all_key_value_deleted = capture.out.__contains__("all key-value pairs deleted")
     assert all_key_value_deleted
@@ -67,12 +67,3 @@ def test__delete__key(capsys):
     capture = capsys.readouterr()
     test_value_deleted = capture.out.__contains__(test_value)
     assert test_value_deleted
-
-
-def test__delete__no_args_error(capsys):
-    try:
-        main(["delete"])
-    except SystemExit:
-        assert True
-    else:
-        assert False
