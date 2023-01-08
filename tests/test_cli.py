@@ -3,7 +3,9 @@ import pytest
 from privateprefs.internal.cli import main
 
 test_key = "test key"
+test_key2 = "test key2"
 test_value = "test value"
+test_value2 = "test value2"
 
 
 @pytest.fixture(autouse=True)
@@ -15,7 +17,7 @@ def setup_and_teardown():
     main(["delete", "--all"])
 
 
-def test_save(capsys):
+def test__save(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["load", test_key])
@@ -23,7 +25,7 @@ def test_save(capsys):
     assert capture.out.__contains__(test_value)
 
 
-def test_load(capsys):
+def test__load(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["load", test_key])
@@ -31,7 +33,7 @@ def test_load(capsys):
     assert capture.out.__contains__(test_value)
 
 
-def test_list(capsys):
+def test__list(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["list"])
@@ -41,24 +43,24 @@ def test_list(capsys):
     assert all([contains_test_key, contains_test_value])
 
 
-def test_list_empty(capsys):
+def test__list__empty(capsys):
     main(["list"])
     capture = capsys.readouterr()
-    displays_empty_list = capture.out.__contains__("list is empty: (no key-value pairs saved yet)")
+    displays_empty_list = capture.out.__contains__("no key-value pairs saved")
     assert displays_empty_list
 
 
-def test_delete_all(capsys):
+def test__delete__all(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
-        main(["save", "other key", "other value"])
+        main(["save", test_key2, test_value2])
     main(["delete", "--all"])
     capture = capsys.readouterr()
-    all_key_value_deleted = capture.out.__contains__("all prefs deleted")
+    all_key_value_deleted = capture.out.__contains__("all key-value pairs deleted")
     assert all_key_value_deleted
 
 
-def test_delete_key(capsys):
+def test__delete__key(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["delete", test_key])
@@ -67,7 +69,7 @@ def test_delete_key(capsys):
     assert test_value_deleted
 
 
-def test_delete__no_args_given_error(capsys):
+def test__delete__no_args_error(capsys):
     try:
         main(["delete"])
     except SystemExit:
