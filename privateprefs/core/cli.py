@@ -74,12 +74,25 @@ def _pre_uninstall_cli() -> None:
     print()
 
 
+def _privateprefs_cli() -> None:
+    print()
+    print("Thanks for using Private Prefs!")
+    print()
+    print("for help run:")
+    print("    privateprefs -h")
+    print()
+    print("or visit:")
+    print("    https://github.com/DarrenHaba/privateprefs#readme")
+    print()
+
+
 def print_key_value_table() -> None:
     """
     Prints out a table of all saved key-value pairs.
     :return: None
     """
     print()
+    print(f"key-value pairs in: {_db.PATH_TO_DATA_FILE}")
     key_value_pairs = _db.read_keys()
 
     if len(key_value_pairs) > 0:
@@ -129,6 +142,10 @@ def main(argv=None) -> None:
 
     # To make argparse sub-parsers easier to deal with, we set up one function per subparsers.
 
+    # The List sub-parsers.
+    # A function called '__cli' will be dynamically called when the '' command is invoked
+    subparsers.add_parser("")
+
     # The Save sub-parsers.
     # A function called '_save_cli' will be dynamically called when the 'save' command is invoked
     parser_save = subparsers.add_parser("save")
@@ -148,10 +165,6 @@ def main(argv=None) -> None:
     # A function called '_path_cli' will be dynamically called when the 'path' command is invoked
     subparsers.add_parser("path")
 
-    # The Path sub-parsers.
-    # A function called '_pre_uninstall_cli' will be dynamically called when the 'pre_uninstall' command is invoked
-    subparsers.add_parser("pre_uninstall")
-
     # The Delete sub-parsers.
     # A function called 'delete_' will be dynamically called when the 'delete' command is invoked
     parser_delete = subparsers.add_parser("delete")
@@ -161,6 +174,10 @@ def main(argv=None) -> None:
     # A function called '_delete_all_cli' will be dynamically called when the 'delete_all' command is invoked
     subparsers.add_parser("delete_all")
 
+    # The Path sub-parsers.
+    # A function called '_pre_uninstall_cli' will be dynamically called when the 'pre_uninstall' command is invoked
+    subparsers.add_parser("pre_uninstall")
+
     # Extract a dict containing the name of the sub processor invoked and its arguments
     kwargs = vars(parser.parse_args(argv))
 
@@ -168,9 +185,14 @@ def main(argv=None) -> None:
     # so now kwargs will be just the given arguments without the subcommand in the dict.
     func_name_to_call = kwargs.pop('subparser')  # will be: save, load, delete, etc.
 
-    # The private cli functions start with an underscore and end with _cli, so we append it here.
-    # E.g. if we called 'save' in the cli, here it would become '_save_cli' to match the function name.
-    func_name_to_call = f"_{func_name_to_call}_cli"
+    if func_name_to_call is None:
+        #  'privateprefs' was called.
+        func_name_to_call = "_privateprefs_cli"
+    else:
+        # A subcommand was called
+        # Make the command name match the corresponding function
+        # CLI functions start with an underscore and end with _cli, so we append it here.
+        func_name_to_call = f"_{func_name_to_call}_cli"
 
     # We dynamically call the function from the globals namespace dictionary and pass in cli the arguments.
     globals()[func_name_to_call](**kwargs)
