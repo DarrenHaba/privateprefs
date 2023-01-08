@@ -24,22 +24,23 @@ def _load_cli(key: str) -> None:
     print(f"loaded value: '{value}'")
 
 
-def _delete_cli(key: str = None, delete_all: bool = False) -> None:
+def _delete_cli(key: str) -> None:
     """
-    :param key: A key that will be used to delete the corresponding key-value pair
+    Deletes a key-value pair for the given key.
+    :param key: The key to delete the value of
     :return: None
+    """
+    print(f"deleted value: '{_db.read(key)}'")
+    _db.delete(key)
 
-    Deletes a key-value pair, or deletes all stored key-value pairs.
-    :param key: The key to be deleted
-    :param delete_all: If flag is true, all key-value pairs will be deleted
+
+def _delete_all_cli() -> None:
+    """
+    Deletes all stored key-value pairs from the data.ini file.
     :return: None
     """
-    if delete_all:
-        _db.delete_all()
-        print(f"all key-value pairs deleted")
-    else:
-        print(f"deleted value: '{_db.read(key)}'")
-        _db.delete(key)
+    _db.delete_all()
+    print(f"all key-value pairs deleted")
 
 
 def _list_cli() -> None:
@@ -153,21 +154,12 @@ def main(argv=None) -> None:
 
     # The Delete sub-parsers.
     # A function called 'delete_' will be dynamically called when the 'delete' command is invoked
-    # Note that only the 'key' or '--all' argument is required, depending on if we want to delete
-    # single key-value pair or all key-value pairs.
     parser_delete = subparsers.add_parser("delete")
-    parser_delete.add_argument('key', nargs='?')
-    parser_delete.add_argument("--all",
-                               dest="delete_all",
-                               action="store_true")
-    args = parser.parse_args(argv)
-    no_args_given = args.subparser == "delete" and args.key is None and args.delete_all is False
-    if no_args_given:
-        print()
-        raise parser.error("\nplease enter a key string argument e.g.:\n"
-                           "privateprefs delete 'my key'\n"
-                           "or to delete all key-value pairs use the '--all' flag e.g.\n"
-                           "privateprefs delete --all\n")
+    parser_delete.add_argument("key")
+
+    # The Path sub-parsers.
+    # A function called '_delete_all_cli' will be dynamically called when the 'delete_all' command is invoked
+    subparsers.add_parser("delete_all")
 
     # Extract a dict containing the name of the sub processor invoked and its arguments
     kwargs = vars(parser.parse_args(argv))
