@@ -1,11 +1,11 @@
 import pytest
-import privateprefs.internal.data_serializer as ds
+import privateprefs.core.database as _db
 import privateprefs as prefs
 
 test_key = "test key"
+test_key2 = "test key2"
 test_value = "test value"
-test_dict = {'test key': 'test value'}
-test_dict_as_str = "{'test key': 'test value'}"
+test_value2 = "test value2"
 
 
 @pytest.fixture(autouse=True)
@@ -17,73 +17,52 @@ def setup_and_teardown():
     prefs.delete_all()
 
 
-def _load_test_file_str():
-    with open(ds.path_to_test_file, "r") as file:
-        return file.read()
-
-
-def _save_dict_str_to_file(dict_str):
-    with open(ds.path_to_test_file, "w") as file:
-        file.write(dict_str)
-
-
 def test_load():
-    _save_dict_str_to_file(test_dict_as_str)
+    _db.write(test_key, test_value)
     assert prefs.load(test_key) == test_value
 
 
-def test_load_default_value_null():
-    _save_dict_str_to_file("")
+def test__load__return_null_if_key_does_not_exist():
     assert prefs.load(test_key) is None
 
 
-def test_load_from_empty_file():
-    _save_dict_str_to_file("")
-    assert prefs.load(test_key) is None
+def test__read_keys__as_dict():
+    _db.write(test_key, test_value)
+    _db.write(test_key2, test_value2)
+    key_values = prefs.load_keys()
+    assert key_values[test_key] == test_value and key_values[test_key2] == test_value2
 
 
-def test_load_dict_filtered():
-    _save_dict_str_to_file("{'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}")
-    ret = prefs.load_dict(['key1', 'key3'])
-    assert ret['key1'] == 'value1' and ret['key3'] == 'value3'
+def test__read_keys__as_dict__filtered():
+    _db.write(test_key, test_value)
+    _db.write(test_key2, test_value2)
+    key_values = prefs.load_keys(keys=[test_key2])
+    assert key_values[test_key2] == test_value2 and len(key_values) == 1
 
 
-def test_load_dict_not_filtered():
-    _save_dict_str_to_file("{'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}")
-    ret = prefs.load_dict(None)
-    assert ret['key1'] == 'value1' and ret['key2'] == 'value2' and ret['key3'] == 'value3'
+def test__read_keys__as_list():
+    _db.write(test_key, test_value)
+    _db.write(test_key2, test_value2)
+    key_values = prefs.load_keys(return_as_list=True)
+    assert key_values[0][1] == test_value and key_values[1][1] == test_value2
 
 
-def test_load_dict_with_only_key_in_dict_text_file():
-    _save_dict_str_to_file("{'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}")
-    ret = prefs.load_dict(['key1', 'key4'])
-    assert ret['key1'] == 'value1' and "key4" not in ret.keys()
+def test__read_keys__as_list__filtered():
+    _db.write(test_key, test_value)
+    _db.write(test_key2, test_value2)
+    key_values = prefs.load_keys(keys=[test_key2], return_as_list=True)
+    assert key_values[0][1] == test_value2 and len(key_values) == 1
 
 
-def test_load_dict_from_empty_file():
-    _save_dict_str_to_file("")
-    assert prefs.load_dict(test_key) == {}
+def test__delete():
+    _db.write(test_key, test_value)
+    _db.write(test_key2, test_value2)
+    prefs.delete(test_key)
+    assert _db.read(test_key) is None and _db.read(test_key2) == test_value2
 
 
-def test_delete_all():
-    ds.save(test_key, test_value)
+def test__delete_all():
+    _db.write(test_key, test_value)
+    _db.write(test_key2, test_value2)
     prefs.delete_all()
-    assert prefs.load(test_key) is None
-
-
-def test_delete():
-    ds.save(test_key, test_value)
-    ds.save("other test key", "other test value")
-    did_save_value = prefs.load(test_key) == test_value
-    prefs.delete(test_key)
-    did_delete_value = prefs.load(test_key) is None
-    did_not_delete_other_test_value = prefs.load("other test key") == "other test value"
-    assert all([did_save_value, did_delete_value, did_not_delete_other_test_value])
-
-
-def test_delete_empty_dict():
-    ds.save(test_key, test_value)
-    did_save_value = prefs.load(test_key) == test_value
-    prefs.delete(test_key)
-    did_delete_value = prefs.load(test_key) is None
-    assert all([did_save_value, did_delete_value])
+    assert _db.read(test_key) is None
