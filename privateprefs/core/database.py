@@ -88,6 +88,15 @@ def delete_all() -> None:
         data_file_config.write(file)
 
 
+def pre_uninstall() -> None:
+    """
+    Removes all dictionaries and files created by this package.
+    :return: None
+    """
+    _delete_data_file()
+    _delete_project_data_dir()
+
+
 def _get_config_parser_for_data_ini_file() -> configparser:
     """
     Creates an instance of a ConfigParser and reads in the persistent data.ini file.
@@ -143,15 +152,6 @@ def _ensure_section_name_exists(config_parser: configparser) -> None:
     """
     if not config_parser.sections().__contains__(SECTION_NAME):
         config_parser.add_section(SECTION_NAME)
-
-
-def _pre_uninstall() -> None:
-    """
-    Removes all dictionaries and files created by this package.
-    :return: None
-    """
-    _delete_data_file()
-    _delete_project_data_dir()
 
 
 def _delete_data_file() -> None:
