@@ -3,8 +3,8 @@ install editable: https://pip.pypa.io/en/stable/topics/local-project-installs/#e
     python -m pip install F:\Projects\Com\GitHub\privateprefs
 
 publish
-    update version in __about__.py
-    push to GitHub (ensure ci passes)
+    -update version in __about__.py
+    -push to GitHub (ensure ci passes)
     hatch build
     hatch publish
 
@@ -16,7 +16,7 @@ pypi usage
     privateprefs delete --all
 
 local usages
-    # cd to privateprefs/privateprefs/core dir
+    -cd to privateprefs/privateprefs/core dir
     python cli.py save foo bar
     python cli.py load foo
     python cli.py list
