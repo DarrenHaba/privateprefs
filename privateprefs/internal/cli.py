@@ -1,70 +1,89 @@
 import argparse
-# import privateprefs as prefs
 
-# from privateprefs.privateprefs import _save
-import privateprefs.internal.data_serializer as ds
+import privateprefs.core.database as _db
 
 
 def _save_cli(key: str, value: str) -> None:
     """
-    Saves a value for a given key.
-    :param key: The key used to save the value to
-    :param value: The value to save/write to persistent storage
+    Saves the value for a given key.
+    :param key: A unique key to write the value under
+    :param value: The value to be save into persistent storage
     :return: None
     """
-    # noinspection PyProtectedMember
-    ds.save(key, value)
-    print(f"saved key='{key}' value='{value}'")
+    _db.write(key, value)
+    print(f"saved value: '{value}'")
 
 
 def _load_cli(key: str) -> None:
     """
-    Loads a value from a given key.
-    :param key: The key to load a value from
+    Loads and returns the value for a given key
+    :param key: A key to read the value of
     :return: None
     """
-    value = ds.load(key)
-    print(f"loaded key='{key}' value='{value}'")
+    value = _db.read(key)
+    print(f"loaded value: '{value}'")
 
 
-def _delete_cli(key: str, delete_all: bool = False) -> None:
+def _delete_cli(key: str = None, delete_all: bool = False) -> None:
     """
+
+
+    :param key: A key that will be used to delete the corresponding key-value pair
+    :return: None
+
     Deletes a key-value pair, or deletes all stored key-value pairs.
     :param key: The key to be deleted
-    :param delete_all: Flag is set to true will delete all key-value pairs
+    :param delete_all: If flag is true, all key-value pairs will be deleted
     :return: None
     """
     if delete_all:
-        ds.delete_all()
-        print(f"all prefs deleted")
+        _db.delete_all()
+        print(f"all key-value pairs deleted")
     else:
-        print(f"deleted key='{key}' value='{ds.load(key)}'")
-        ds.delete(key)
+        print(f"deleted value: '{_db.read(key)}'")
+        _db.delete(key)
 
 
 def _list_cli() -> None:
     """
-    Displays a list of all saved key-value pairs.
+    Displays a table of all saved key-value pairs.
     :return: None
     """
-    print_list()
+    print_key_value_table()
 
 
-def print_list() -> None:
+def print_key_value_table() -> None:
     """
     Prints out a list of all saved key-value pairs.
     :return: None
     """
     print()
-    print("stored (key  :  value)")
-    print("-------------------------------------------------------------")
-    d = ds.load_dict()
-    if len(d) > 0:
-        for key, value in ds.load_dict().items():
-            print(key, '  :  ', value)
+    key_value_pairs = _db.read_keys()
+
+    if len(key_value_pairs) > 0:
+        max_len_key = max(len(x) for x in key_value_pairs.keys())
+        max_len_value = max(len(x) for x in key_value_pairs.values())
     else:
-        print("list is empty: (no key-value pairs saved yet)")
-    print("-------------------------------------------------------------")
+        max_len_key = 10
+        max_len_value = 11
+        key_value_pairs["   ...   "] = "    ...   "
+        print("- no key-value pairs saved -".lower())
+
+    key_blank = "-" * max_len_key
+    value_blank = "-" * max_len_value
+
+    key_header_centered = f'{"key":^{max_len_key}s}'
+    value_header_centered = f'{"value":^{max_len_value}s}'
+    print(f"+-{key_blank}-+-{value_blank}-+")
+    print(f"| {key_header_centered} | {value_header_centered} |")
+    print(f"+-{key_blank}-+-{value_blank}-+")
+
+    for key, val in key_value_pairs.items():
+        key = key.ljust(max_len_key)
+        val = val.ljust(max_len_value)
+        print(f"| {key} | {val} |")
+
+    print(f"+-{key_blank}-+-{value_blank}-+")
     print()
 
 
@@ -74,13 +93,13 @@ def main(argv=None) -> None:
 
     In the project.toml file under [project.scripts] is a line code that invokes
     this method. This method instantiate argparse and instantiates sub-commands
-    then injects the sub-commands into the global namespace cache
-    :param argv: Injected arguments when running unit tests, and None when called
+    then dynamically calls the function associated with the subcommand been called.
+    :param argv: Injected arguments when running unit tests, and None when cli used
     from the command line
     :return: None
     """
 
-    # Instantiate argparse and a sub-parsers
+    # Instantiate argparse and a subparsers
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest='subparser')
 
@@ -122,13 +141,18 @@ def main(argv=None) -> None:
     # so now kwargs will be just the given arguments without the subcommand in the dict.
     func_name_to_call = kwargs.pop('subparser')  # will be: save, load, delete, etc.
 
-    # The private functions end with an underscore and in with _cli, so we add it here.
+    # The private cli functions start with an underscore and end with _cli, so we append it here.
+    # E.g. if we called 'save' in the cli, here it would become '_save_cli' to match the function name.
     func_name_to_call = f"_{func_name_to_call}_cli"
 
-    # We need to dynamically call one of the save(), load(), delete(), etc functions,
-    # We dynamically call the function from the globals namespace dictionary, passing in the arguments.
+    # We dynamically call the function from the globals namespace dictionary and pass in cli the arguments.
     globals()[func_name_to_call](**kwargs)
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    # _save_cli("fooooooooo", "barrs")
+    # _save_cli("goooood", "byee")
+    # _save_cli("payyyyyssss", "dafeeeee")
+    _delete_cli(delete_all=True)
+    print_key_value_table()
