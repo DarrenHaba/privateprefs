@@ -19,7 +19,7 @@ def load_keys(keys: list = None, return_as_list: bool = False) -> dict | list:
     :param return_as_list: If true a list of tuples will be returned, If false the default dict will be returned
     :return: A dict of key-value pairs by default, or a list of tuples.
     """
-    return _db.read_keys(keys)
+    return _db.read_keys(keys, return_as_list)
 
 
 def delete_all() -> None:
