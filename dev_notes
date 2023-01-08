@@ -4,6 +4,7 @@ install editable: https://pip.pypa.io/en/stable/topics/local-project-installs/#e
 
 publish
     update version in __about__.py
+    push to GitHub (ensure ci passes)
     hatch build
     hatch publish
 
