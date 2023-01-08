@@ -3,7 +3,7 @@ install editable: https://pip.pypa.io/en/stable/topics/local-project-installs/#e
     python -m pip install F:\Projects\Com\GitHub\privateprefs
 
 publish
-    update __about__.py version
+    update version in __about__.py
     hatch build
     hatch publish
 
