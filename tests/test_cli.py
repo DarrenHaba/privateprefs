@@ -50,7 +50,7 @@ def test__list__empty(capsys):
     assert displays_empty_list
 
 
-def test__delete__all(capsys):
+def test__delete_all(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
         main(["save", test_key2, test_value2])
@@ -60,10 +60,23 @@ def test__delete__all(capsys):
     assert all_key_value_deleted
 
 
-def test__delete__key(capsys):
+def test__delete(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["delete", test_key])
     capture = capsys.readouterr()
     test_value_deleted = capture.out.__contains__(test_value)
     assert test_value_deleted
+
+
+def test__path(capsys):
+    main(["path"])
+    capture = capsys.readouterr().out
+    assert capture.__contains__(".privateprefs") and capture.__contains__("data.ini")
+
+
+def test__pre_uninstall(capsys):
+    main(["pre_uninstall"])
+    capture = capsys.readouterr().out
+    assert capture.__contains__("removed all persistent files and")
+
