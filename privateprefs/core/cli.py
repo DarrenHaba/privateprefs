@@ -54,7 +54,7 @@ def _list_cli() -> None:
 
 def print_key_value_table() -> None:
     """
-    Prints out a list of all saved key-value pairs.
+    Prints out a table of all saved key-value pairs.
     :return: None
     """
     print()
@@ -63,6 +63,8 @@ def print_key_value_table() -> None:
     if len(key_value_pairs) > 0:
         max_len_key = max(len(x) for x in key_value_pairs.keys())
         max_len_value = max(len(x) for x in key_value_pairs.values())
+        max_len_key = max(max_len_key, 10)
+        max_len_value = max(max_len_value, 10)
     else:
         max_len_key = 10
         max_len_value = 11
@@ -72,8 +74,8 @@ def print_key_value_table() -> None:
     key_blank = "-" * max_len_key
     value_blank = "-" * max_len_value
 
-    key_header_centered = f'{"key":^{max_len_key}s}'
-    value_header_centered = f'{"value":^{max_len_value}s}'
+    key_header_centered = f'{"KEY":^{max_len_key}s}'
+    value_header_centered = f'{"VALUE":^{max_len_value}s}'
     print(f"+-{key_blank}-+-{value_blank}-+")
     print(f"| {key_header_centered} | {value_header_centered} |")
     print(f"+-{key_blank}-+-{value_blank}-+")
