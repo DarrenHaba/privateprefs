@@ -92,7 +92,8 @@ def print_key_value_table() -> None:
     :return: None
     """
     print()
-    print(f"key-value pairs in: {_db.PATH_TO_DATA_FILE}")
+    print(f"key-value pairs stored in data.ini located at:")
+    print(_db.PATH_TO_DATA_FILE)
     key_value_pairs = _db.read_keys()
 
     if len(key_value_pairs) > 0:
