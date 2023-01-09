@@ -3,7 +3,7 @@ PrivatePrefs
 
 ### Easily Keep API Keys out of GitHub 
 
-[![Pytest - Coverage](https://img.shields.io/badge/Coverage-91%25-31c653)](https://github.com/DarrenHaba/privateprefs/actions)
+[![Pytest - Coverage](https://img.shields.io/badge/Coverage-97%25-31c653)](https://github.com/DarrenHaba/privateprefs/actions)
 [![Package CI](https://github.com/DarrenHaba/privateprefs/actions/workflows/ci.yml/badge.svg)](https://github.com/DarrenHaba/privateprefs/actions/workflows/ci.yml)
 [![PyPI - Version](https://img.shields.io/pypi/v/privateprefs.svg)](https://pypi.org/project/privateprefs)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/privateprefs.svg)](https://pypi.org/project/privateprefs)
