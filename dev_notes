@@ -26,15 +26,16 @@ pypi usage
     privateprefs load foo
     privateprefs list
     privateprefs delete foo
-    privateprefs delete --all
+    privateprefs delete_all
+    privateprefs data
+    privateprefs data_open  # want to remove the underscore but to much work in argparse
+    privateprefs data_path  # want to remove the underscore but to much work in argparse
 
 local usages
     -cd to privateprefs/privateprefs/core dir
     python cli.py save foo bar
     python cli.py load foo
-    python cli.py list
-    python cli.py delete foo
-    python cli.py delete --all
+    -etc...
 
 # run pytest coverage
     pytest --cov=privateprefs tests/
