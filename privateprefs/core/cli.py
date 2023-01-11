@@ -54,17 +54,6 @@ def _list_cli() -> None:
     print_key_value_table()
 
 
-def _path_cli() -> None:
-    """
-    Displays a table of all saved key-value pairs.
-    :return: None
-    """
-    print()
-    print(f"data.ini file path is:")
-    print(_db.PATH_TO_DATA_FILE)
-    print()
-
-
 def _data_cli() -> None:
     """
     Displays a table of all data (saved key-value pairs).
@@ -73,7 +62,7 @@ def _data_cli() -> None:
     print_key_value_table()
 
 
-def _data_open_cli() -> None:
+def _open_cli() -> None:
     """
     Displays a table of all saved key-value pairs.
     :return: None
@@ -219,9 +208,9 @@ def main(argv=None) -> None:
     # A function called '_data_path_cli' will be dynamically called when the 'data_path' command is invoked
     subparsers.add_parser("data_path")
 
-    # The Data_Open sub-parsers.
-    # A function called '_data_open_cli' will be dynamically called when the 'data_open' command is invoked
-    subparsers.add_parser("data_open")
+    # The Open sub-parsers.
+    # A function called '_open_cli' will be dynamically called when the 'open' command is invoked
+    subparsers.add_parser("open")
 
     # The Delete sub-parsers.
     # A function called 'delete_' will be dynamically called when the 'delete' command is invoked
