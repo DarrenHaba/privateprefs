@@ -185,10 +185,6 @@ def main(argv=None) -> None:
     # A function called '_list_cli' will be dynamically called when the 'list' command is invoked
     subparsers.add_parser("list")
 
-    # The Path sub-parsers.
-    # A function called '_path_cli' will be dynamically called when the 'path' command is invoked
-    subparsers.add_parser("path")
-
     # The Data sub-parsers.
     # A function called '_data_cli' will be dynamically called when the '_data_cli' command is invoked
     subparsers.add_parser("data")
