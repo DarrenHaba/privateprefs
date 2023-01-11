@@ -28,7 +28,7 @@ pypi usage
     privateprefs delete foo
     privateprefs delete_all
     privateprefs data
-    privateprefs data_open  # want to remove the underscore but to much work in argparse
+    privateprefs open
     privateprefs data_path  # want to remove the underscore but to much work in argparse
 
 local usages
