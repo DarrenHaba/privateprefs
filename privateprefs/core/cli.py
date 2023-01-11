@@ -46,14 +46,6 @@ def _delete_all_cli() -> None:
     print(f"all key-value pairs deleted")
 
 
-def _list_cli() -> None:
-    """
-    Displays a table of all data (saved key-value pairs).
-    :return: None
-    """
-    print_key_value_table()
-
-
 def _data_cli() -> None:
     """
     Displays a table of all data (saved key-value pairs).
@@ -181,10 +173,6 @@ def main(argv=None) -> None:
     # A function called '_load_cli' will be dynamically called when the 'load' command is invoked
     parser_load = subparsers.add_parser("load")
     parser_load.add_argument("key")
-
-    # The List sub-parsers.
-    # A function called '_list_cli' will be dynamically called when the 'list' command is invoked
-    subparsers.add_parser("list")
 
     # The Data sub-parsers.
     # A function called '_data_cli' will be dynamically called when the '_data_cli' command is invoked
