@@ -29,7 +29,6 @@ pypi usage
     privateprefs delete_all
     privateprefs data
     privateprefs open
-    privateprefs data_path  # want to remove the underscore but to much work in argparse
 
 local usages
     -cd to privateprefs/privateprefs/core dir
