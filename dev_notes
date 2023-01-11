@@ -24,7 +24,6 @@ publish
 pypi usage
     privateprefs save foo bar
     privateprefs load foo
-    privateprefs list
     privateprefs delete foo
     privateprefs delete_all
     privateprefs data
