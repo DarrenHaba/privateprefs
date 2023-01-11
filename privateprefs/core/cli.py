@@ -166,8 +166,9 @@ def main(argv=None) -> None:
 
     # To make argparse sub-parsers easier to deal with, we set up one function per subparsers.
 
-    # The List sub-parsers.
-    # A function called '__cli' will be dynamically called when the '' command is invoked
+    # The PrivatePrefs sub-parsers.
+    # A function called '__cli' will be dynamically called
+    # when the '' (privateprefs with no command) command is invoked
     subparsers.add_parser("")
 
     # The Save sub-parsers.
