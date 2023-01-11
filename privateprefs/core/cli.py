@@ -71,17 +71,6 @@ def _open_cli() -> None:
     _open_file_with_application(_db.PATH_TO_DATA_FILE)
 
 
-def _data_path_cli() -> None:
-    """
-    Displays the full path to the data.ini file
-    :return: None
-    """
-    print()
-    print(f"data.ini file path is:")
-    print(_db.PATH_TO_DATA_FILE)
-    print()
-
-
 def _pre_uninstall_cli() -> None:
     """
     Removes all persistent files and folders created by this package.
@@ -203,10 +192,6 @@ def main(argv=None) -> None:
     # The Data sub-parsers.
     # A function called '_data_cli' will be dynamically called when the '_data_cli' command is invoked
     subparsers.add_parser("data")
-
-    # The Data_Path sub-parsers.
-    # A function called '_data_path_cli' will be dynamically called when the 'data_path' command is invoked
-    subparsers.add_parser("data_path")
 
     # The Open sub-parsers.
     # A function called '_open_cli' will be dynamically called when the 'open' command is invoked
