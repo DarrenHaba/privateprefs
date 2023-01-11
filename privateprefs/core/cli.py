@@ -1,4 +1,7 @@
 import argparse
+import subprocess
+import os
+import platform
 
 import privateprefs.core.database as _db
 
@@ -45,7 +48,7 @@ def _delete_all_cli() -> None:
 
 def _list_cli() -> None:
     """
-    Displays a table of all saved key-value pairs.
+    Displays a table of all data (saved key-value pairs).
     :return: None
     """
     print_key_value_table()
@@ -57,7 +60,36 @@ def _path_cli() -> None:
     :return: None
     """
     print()
-    print(f"data.ini file path: {_db.PATH_TO_DATA_FILE}")
+    print(f"data.ini file path is:")
+    print(_db.PATH_TO_DATA_FILE)
+    print()
+
+
+def _data_cli() -> None:
+    """
+    Displays a table of all data (saved key-value pairs).
+    :return: None
+    """
+    print_key_value_table()
+
+
+def _data_open_cli() -> None:
+    """
+    Displays a table of all saved key-value pairs.
+    :return: None
+    """
+    print("opening data.ini file with default application for .ini files")
+    _open_file_with_application(_db.PATH_TO_DATA_FILE)
+
+
+def _data_path_cli() -> None:
+    """
+    Displays the full path to the data.ini file
+    :return: None
+    """
+    print()
+    print(f"data.ini file path is:")
+    print(_db.PATH_TO_DATA_FILE)
     print()
 
 
@@ -88,14 +120,15 @@ def _privateprefs_cli() -> None:
 
 def print_key_value_table() -> None:
     """
-    Prints out a table of all saved key-value pairs.
+    Prints out a table of all saved data (key-value pairs).
     :return: None
     """
     print()
-    print(f"key-value pairs stored in data.ini located at:")
+    print(f"key-value pair data stored in data.ini located at:")
     print(_db.PATH_TO_DATA_FILE)
     key_value_pairs = _db.read_keys()
-
+    print()
+    print("data.ini file contents:")
     if len(key_value_pairs) > 0:
         max_len_key = max(len(x) for x in key_value_pairs.keys())
         max_len_value = max(len(x) for x in key_value_pairs.values())
@@ -123,6 +156,18 @@ def print_key_value_table() -> None:
 
     print(f"+-{key_blank}-+-{value_blank}-+")
     print()
+
+
+def _open_file_with_application(file_path: str):
+    is_mac = platform.system() == 'Darwin'
+    is_windows = platform.system() == 'Windows'
+
+    if is_mac:
+        subprocess.call(('open', file_path))
+    elif is_windows:
+        os.startfile(file_path)
+    else:  # linux
+        subprocess.call(('xdg-open', file_path))
 
 
 def main(argv=None) -> None:
@@ -166,16 +211,28 @@ def main(argv=None) -> None:
     # A function called '_path_cli' will be dynamically called when the 'path' command is invoked
     subparsers.add_parser("path")
 
+    # The Data sub-parsers.
+    # A function called '_data_cli' will be dynamically called when the '_data_cli' command is invoked
+    subparsers.add_parser("data")
+
+    # The Data_Path sub-parsers.
+    # A function called '_data_path_cli' will be dynamically called when the 'data_path' command is invoked
+    subparsers.add_parser("data_path")
+
+    # The Data_Open sub-parsers.
+    # A function called '_data_open_cli' will be dynamically called when the 'data_open' command is invoked
+    subparsers.add_parser("data_open")
+
     # The Delete sub-parsers.
     # A function called 'delete_' will be dynamically called when the 'delete' command is invoked
     parser_delete = subparsers.add_parser("delete")
     parser_delete.add_argument("key")
 
-    # The Path sub-parsers.
+    # The Delete_All sub-parsers.
     # A function called '_delete_all_cli' will be dynamically called when the 'delete_all' command is invoked
     subparsers.add_parser("delete_all")
 
-    # The Path sub-parsers.
+    # The Pre_Uninstall sub-parsers.
     # A function called '_pre_uninstall_cli' will be dynamically called when the 'pre_uninstall' command is invoked
     subparsers.add_parser("pre_uninstall")
 
