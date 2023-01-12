@@ -1,4 +1,5 @@
 import os
+import platform
 
 import pytest
 
@@ -118,7 +119,13 @@ def test__open_file_with_application__mac(mocker):
     assert result is True
 
 
-def test__open_file_with_application__windows( mocker):
+def test__open_file_with_application__windows(mocker):
+    if platform.system() == 'Windows':
+        def startfile():
+            return True
+
+        os.foobar = startfile
+
     mocker.patch(
         'privateprefs.core.cli.os.startfile',
         return_value=True
@@ -127,11 +134,10 @@ def test__open_file_with_application__windows( mocker):
         'privateprefs.core.cli.platform.system',
         return_value="Windows"
     )
-    try:
-        result = cli._open_file_with_application("fake/path")
-        assert result is True
-    except AttributeError:
-        assert True
+
+    result = cli._open_file_with_application("fake/path")
+    assert result is True
+
 
 
 # def test__open_file_with_application__windows(mocker):
