@@ -114,7 +114,7 @@ def _get_config_parser_for_data_ini_file() -> configparser:
     return config
 
 
-def _ensure_project_config_file_exists() -> None | IOError:
+def _ensure_project_config_file_exists() -> None:
     """
     Make sure a data.ini file exists in the projects persistent storage directory.
     :return: None or the IO Error given.
@@ -123,7 +123,7 @@ def _ensure_project_config_file_exists() -> None | IOError:
         PATH_TO_DATA_FILE.touch(exist_ok=True)
 
 
-def _ensure_project_data_dir_exists() -> None | OSError:
+def _ensure_project_data_dir_exists() -> None:
     """
     Make sure the project dictionary exist to store persistent data.
     """
