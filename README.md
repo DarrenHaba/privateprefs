@@ -252,7 +252,7 @@ Deletes all values.
 
 ### Data
 ```sh
-privateprefs date
+privateprefs data
 ```
 Display the data.ini file path and its contents as a data table.
 
