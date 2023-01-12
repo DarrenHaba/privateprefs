@@ -1,5 +1,6 @@
 import pytest
 
+import privateprefs.core.cli as cli
 from privateprefs.core.cli import main
 
 test_key = "test key"
@@ -17,7 +18,7 @@ def setup_and_teardown():
     main(["delete_all"])
 
 
-def test__save(capsys):
+def test__command__save(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["load", test_key])
@@ -25,7 +26,7 @@ def test__save(capsys):
     assert capture.out.__contains__(test_value)
 
 
-def test__load(capsys):
+def test__command__load(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["load", test_key])
@@ -33,7 +34,7 @@ def test__load(capsys):
     assert capture.out.__contains__(test_value)
 
 
-def test__data(capsys):
+def test__command__data(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["data"])
@@ -43,20 +44,20 @@ def test__data(capsys):
     assert all([contains_test_key, contains_test_value])
 
 
-def test__data__show_path(capsys):
+def test__command__data__show_path(capsys):
     main(["data"])
     capture = capsys.readouterr().out
     assert capture.__contains__("privateprefs") and capture.__contains__("data.ini")
 
 
-def test__data__empty(capsys):
+def test__command__data__empty(capsys):
     main(["data"])
     capture = capsys.readouterr()
     displays_empty_list = capture.out.__contains__("no key-value pairs saved")
     assert displays_empty_list
 
 
-def test__delete_all(capsys):
+def test__command__delete_all(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
         main(["save", test_key2, test_value2])
@@ -66,7 +67,7 @@ def test__delete_all(capsys):
     assert all_key_value_deleted
 
 
-def test__delete(capsys):
+def test__command__delete(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["delete", test_key])
@@ -75,8 +76,82 @@ def test__delete(capsys):
     assert test_value_deleted
 
 
-def test__pre_uninstall(capsys):
+def test__command__pre_uninstall(capsys):
     main(["pre_uninstall"])
     capture = capsys.readouterr().out
     assert capture.__contains__("removed all persistent files and")
 
+
+def test__command__open__did_open_file__true(mocker, capsys):
+    mocker.patch(
+        'privateprefs.core.cli._open_file_with_application',
+        return_value=True
+    )
+    main(["open"])
+    capture = capsys.readouterr().out
+    print(capture)
+    assert capture.__contains__("opened data.ini file in default application")
+
+
+def test__command__open__did_open_file__false(mocker, capsys):
+    mocker.patch(
+        'privateprefs.core.cli._open_file_with_application',
+        return_value=False
+    )
+    main(["open"])
+    capture = capsys.readouterr().out
+    print(capture)
+    assert capture.__contains__("sorry, could not open the file on you operating system")
+
+
+def test__open_file_with_application__mac(mocker):
+    mocker.patch(
+        'privateprefs.core.cli.subprocess.call',
+    )
+    mocker.patch(
+        'privateprefs.core.cli.platform.system',
+        return_value="Darwin"
+    )
+    result = cli._open_file_with_application("fake/path")
+    assert result is True
+
+
+def test__open_file_with_application__windows(mocker):
+    mocker.patch(
+        'privateprefs.core.cli.os.startfile',
+    )
+    mocker.patch(
+        'privateprefs.core.cli.platform.system',
+        return_value="Windows"
+    )
+    result = cli._open_file_with_application("fake/path")
+    assert result is True
+
+
+def test__open_file_with_application__linux(mocker):
+    mocker.patch(
+        'privateprefs.core.cli.subprocess.call',
+    )
+    mocker.patch(
+        'privateprefs.core.cli.platform.system',
+        return_value="Linux"
+    )
+    result = cli._open_file_with_application("fake/path")
+    assert result is True
+
+
+def test__open_file_with_application__unsupported_operating_system(mocker):
+    mocker.patch(
+        'privateprefs.core.cli.subprocess.call',
+    )
+    mocker.patch(
+        'privateprefs.core.cli.platform.system',
+        return_value="not Darwin Windows or Linux"
+    )
+    result = cli._open_file_with_application("fake/path")
+    assert result is False
+
+def test__privateprefs_cli(capsys):
+    main("")
+    capture = capsys.readouterr().out
+    assert capture.__contains__("Thanks for using Private Prefs!")
