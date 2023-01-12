@@ -138,7 +138,8 @@ privateprefs delete_all
 
 ### Conclusion
 You now have a basic understanding of how `privateprefs` works and how to use it. 
-We left out a few Python functions and CLI methods, as are covered in the docs below.
+We left out a few Python functions and CLI commands, but they are covered in the docs 
+below if you're interested.
 
 ## Python Docs
 
