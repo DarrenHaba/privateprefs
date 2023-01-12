@@ -59,8 +59,18 @@ def _open_cli() -> None:
     Displays a table of all saved key-value pairs.
     :return: None
     """
-    print("opening data.ini file with default application for .ini files")
-    _open_file_with_application(_db.PATH_TO_DATA_FILE)
+
+    did_open_file = _open_file_with_application(_db.PATH_TO_DATA_FILE)
+    if did_open_file:
+        print()
+        print("opened data.ini file in default application")
+        print()
+    else:
+        print()
+        print("sorry, could not open the file on you operating system")
+        print("you can navigate to the file pate manually and open it at:")
+        print(_db.PATH_TO_DATA_FILE)
+        print()
 
 
 def _pre_uninstall_cli() -> None:
@@ -129,15 +139,25 @@ def print_key_value_table() -> None:
 
 
 def _open_file_with_application(file_path: str):
+    """
+    Opens a file using the default application associated with the file type, like double-clicking on
+    the file to open it.
+    :return: true if the open file command get called, else false
+    """
     is_mac = platform.system() == 'Darwin'
     is_windows = platform.system() == 'Windows'
+    is_linux = platform.system() == 'Linux'
 
     if is_mac:
         subprocess.call(('open', file_path))
-    elif is_windows:
+        return True
+    if is_windows:
         os.startfile(file_path)
-    else:  # linux
+        return True
+    if is_linux:
         subprocess.call(('xdg-open', file_path))
+        return True
+    return False
 
 
 def main(argv=None) -> None:
