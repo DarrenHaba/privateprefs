@@ -99,7 +99,7 @@ The file path will very on different operating systems but here are the most com
 - ~/Library/Application Support/privateprefs/data.ini (on mac)
 - ~/.local/share/privateprefs/data.ini (on linux)
 
-The date table will list all saved/stored key-value pairs in the data.ini file.
+The data table will list all saved/stored key-value pairs in the data.ini file.
 
 ### Open the Data File
 ###### *run command*
