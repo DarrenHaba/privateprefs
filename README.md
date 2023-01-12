@@ -175,7 +175,7 @@ print(f"My Value: {my_value}")
 does_my_other_key_exist = 'my_other_key' in my_value_dict.keys()
 print(f"does_my_other_key_exist: {does_my_other_key_exist}")
 ```
-Only returns key-value pairs that are in `filter_keys` list
+Only returns key-value pairs that are in the `filter_keys` list
 
 ### Load All Values as List of Tuples
 ```python 
