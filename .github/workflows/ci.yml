@@ -41,12 +41,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest pytest-cov
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install hatch
           
       - name: Generate coverage.xml file
         run: |
-          pytest --cov-report=xml --cov=privateprefs tests/
+          hatch run cov
           
       - name: Add pytest badge to README.md file
         run: python ci/badge_coverage_gen.py
