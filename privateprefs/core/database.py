@@ -120,10 +120,7 @@ def _ensure_project_config_file_exists() -> None | IOError:
     :return: None or the IO Error given.
     """
     if PATH_TO_DATA_FILE.exists() is False:
-        try:
-            PATH_TO_DATA_FILE.touch(exist_ok=True)
-        except IOError as e:
-            return e
+        PATH_TO_DATA_FILE.touch(exist_ok=True)
 
 
 def _ensure_project_data_dir_exists() -> None | OSError:
@@ -131,10 +128,7 @@ def _ensure_project_data_dir_exists() -> None | OSError:
     Make sure the project dictionary exist to store persistent data.
     """
     if PATH_TO_USER_DATA_PROJECT_DIR.exists() is False:
-        try:
-            PATH_TO_USER_DATA_PROJECT_DIR.mkdir(exist_ok=True)
-        except OSError as e:
-            return e
+        PATH_TO_USER_DATA_PROJECT_DIR.mkdir(exist_ok=True)
 
 
 def _ensure_section_name_exists(config_parser: configparser) -> None:
