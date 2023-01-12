@@ -150,7 +150,7 @@ from privateprefs import load
 my_value = load("my_key")
 print(my_value)
 ```
-Return the `value` for the given `key` or `None` if key doesn't exist.
+Return the `value` for the given `key` or `None` if the key doesn't exist.
 
 ### Load All Values
 ```python 
