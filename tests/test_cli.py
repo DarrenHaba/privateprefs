@@ -120,10 +120,10 @@ def test__open_file_with_application__mac(mocker):
 
 
 def test__open_file_with_application__windows(mocker):
-    if platform.system() == 'Windows':
+    # monkey patch for linux ci
+    if platform.system() != 'Windows':
         def startfile():
             return True
-
         os.startfile = startfile
 
     mocker.patch(
