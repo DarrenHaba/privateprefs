@@ -117,12 +117,12 @@ Let's add the key `my_email` with a value of `darren@spammed.com` to the file ma
 ###### *data.ini with newly added line*
 ![private prefs data.ini file](https://github.com/DarrenHaba/privateprefs/blob/master/images/privateprefs_date_file_add_key_value.png?raw=true)
 
-For who don't like to use the cli (command line interface) feel free to edit the data.ini file directly but 
-please follow a few rules to ensure don't break it
+For those who don't like to use the cli (command line interface) feel free to edit the data.ini file directly, but 
+please follow a few rules to ensure you don't break the package
 1. The first line must contain `[privateprefs]`
 2. the next lines must be `my_key = my value` pairs
-3. don't add quotes to strings like `my_key = "my value"` ( don't do this! )
-4. it's best use the same name rules for keys as with [Python variables name](https://www.w3schools.com/python/gloss_python_variable_names.asp)
+3. don't add quotes to strings like `my_key = "my value"` (don't do this!)
+4. it's best to use the same name rules for keys as with [Python variables name](https://www.w3schools.com/python/gloss_python_variable_names.asp)
 
 ### Delete Value
 ```sh
