@@ -5,9 +5,9 @@ PrivatePrefs
 
 [![Pytest - Coverage](https://img.shields.io/badge/Coverage-87%25-31c653)](https://github.com/DarrenHaba/privateprefs/actions)
 [![Package CI](https://github.com/DarrenHaba/privateprefs/actions/workflows/ci.yml/badge.svg)](https://github.com/DarrenHaba/privateprefs/actions/workflows/ci.yml)
+[![GitHub](https://img.shields.io/badge/license-MIT-31c653)](https://github.com/DarrenHaba/privateprefs#license)
 [![PyPI - Version](https://img.shields.io/pypi/v/privateprefs.svg)](https://pypi.org/project/privateprefs)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/privateprefs.svg)](https://pypi.org/project/privateprefs)
-[![GitHub](https://img.shields.io/github/license/DarrenHaba/privateprefs)](https://github.com/DarrenHaba/privateprefs#license)
 [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
 
 It's often tempting to hard code sensitive data like API Keys, passwords, email addresses, usernames, etc directly into python scripts, but if it's checked into Version Control and pushed to public repository on GitHub, GitLab or Bitbucket, then your sensitive personal data will be compromised.
