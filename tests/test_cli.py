@@ -139,21 +139,6 @@ def test__open_file_with_application__windows(mocker):
     assert result is True
 
 
-
-# def test__open_file_with_application__windows(mocker):
-#     mocker.patch(
-#         'privateprefs.core.cli.os.startfile',
-#         return_value=True
-#     )
-#     mocker.patch(
-#
-#         'privateprefs.core.cli.platform.system',
-#         return_value="Windows"
-#     )
-#     result = cli._open_file_with_application("fake/path")
-#     assert result is True
-
-
 def test__open_file_with_application__linux(mocker):
     mocker.patch(
         'privateprefs.core.cli.subprocess.call',
