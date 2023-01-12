@@ -33,18 +33,24 @@ def test__load(capsys):
     assert capture.out.__contains__(test_value)
 
 
-def test__list(capsys):
+def test__data(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
-    main(["list"])
+    main(["data"])
     capture = capsys.readouterr()
     contains_test_key = capture.out.__contains__(test_key)
     contains_test_value = capture.out.__contains__(test_value)
     assert all([contains_test_key, contains_test_value])
 
 
-def test__list__empty(capsys):
-    main(["list"])
+def test__data__show_path(capsys):
+    main(["data"])
+    capture = capsys.readouterr().out
+    assert capture.__contains__("privateprefs") and capture.__contains__("data.ini")
+
+
+def test__data__empty(capsys):
+    main(["data"])
     capture = capsys.readouterr()
     displays_empty_list = capture.out.__contains__("no key-value pairs saved")
     assert displays_empty_list
@@ -67,12 +73,6 @@ def test__delete(capsys):
     capture = capsys.readouterr()
     test_value_deleted = capture.out.__contains__(test_value)
     assert test_value_deleted
-
-
-def test__path(capsys):
-    main(["path"])
-    capture = capsys.readouterr().out
-    assert capture.__contains__(".privateprefs") and capture.__contains__("data.ini")
 
 
 def test__pre_uninstall(capsys):
