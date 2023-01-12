@@ -158,4 +158,3 @@ def _delete_project_data_dir() -> None:
     """
     if PATH_TO_USER_DATA_PROJECT_DIR.exists():
         PATH_TO_USER_DATA_PROJECT_DIR.rmdir()
-
