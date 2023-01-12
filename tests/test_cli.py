@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 import privateprefs.core.cli as cli
@@ -116,16 +118,36 @@ def test__open_file_with_application__mac(mocker):
     assert result is True
 
 
-def test__open_file_with_application__windows(mocker):
+def test__open_file_with_application__windows(monkeypatch, mocker):
+    results = []
+    monkeypatch.setattr(os, 'startfile', results.append)
     mocker.patch(
         'privateprefs.core.cli.os.startfile',
+        return_value=True
     )
     mocker.patch(
+
         'privateprefs.core.cli.platform.system',
         return_value="Windows"
     )
+    print(1)
+    print(results)
+    print(2)
     result = cli._open_file_with_application("fake/path")
     assert result is True
+
+# def test__open_file_with_application__windows(mocker):
+#     mocker.patch(
+#         'privateprefs.core.cli.os.startfile',
+#         return_value=True
+#     )
+#     mocker.patch(
+#
+#         'privateprefs.core.cli.platform.system',
+#         return_value="Windows"
+#     )
+#     result = cli._open_file_with_application("fake/path")
+#     assert result is True
 
 
 def test__open_file_with_application__linux(mocker):
@@ -150,6 +172,7 @@ def test__open_file_with_application__unsupported_operating_system(mocker):
     )
     result = cli._open_file_with_application("fake/path")
     assert result is False
+
 
 def test__privateprefs_cli(capsys):
     main("")
