@@ -3,11 +3,13 @@ from __future__ import annotations
 import configparser
 import pathlib
 
+from platformdirs import user_data_dir
+
 PROJECT_NAME = "privateprefs"
 
-PATH_TO_USER_DIR = pathlib.Path.home()
-PATH_TO_PROJECT_DATA_DIR = PATH_TO_USER_DIR / f".{PROJECT_NAME}"
-PATH_TO_DATA_FILE = PATH_TO_PROJECT_DATA_DIR / "data.ini"
+PATH_TO_USER_DATA_PROJECT_DIR = pathlib.Path(user_data_dir(PROJECT_NAME, appauthor=False))
+PATH_TO_DATA_FILE = PATH_TO_USER_DATA_PROJECT_DIR / "data.ini"
+PATH_TO_CONFIG_FILE = pathlib.Path(PATH_TO_USER_DATA_PROJECT_DIR) / "config.ini"
 SECTION_NAME = PROJECT_NAME
 
 
@@ -102,7 +104,7 @@ def _get_config_parser_for_data_ini_file() -> configparser:
     Creates an instance of a ConfigParser and reads in the persistent data.ini file.
     :return: An instance of ConfigParser
     """
-    _ensure_project_storage_dir_exists()
+    _ensure_project_data_dir_exists()
     _ensure_project_config_file_exists()
 
     config = configparser.ConfigParser()
@@ -124,21 +126,13 @@ def _ensure_project_config_file_exists() -> None | IOError:
             return e
 
 
-def _ensure_project_storage_dir_exists() -> None | OSError:
+def _ensure_project_data_dir_exists() -> None | OSError:
     """
-    We make sure a dictionary exist to store persistent data.
-    The directory starts with a dot.
-    The directory is named same as the project name.
-    The directory is stored under the users profile directory
-    e.g. Windows: 'C:/Users/username/.privateprefs'
-    e.g. Linux: '/home/username/.privateprefs'
-    todo: test on Linux and mac.
-    todo: add mac path here.
-    :return: None the the OS Error given
+    Make sure the project dictionary exist to store persistent data.
     """
-    if PATH_TO_PROJECT_DATA_DIR.exists() is False:
+    if PATH_TO_USER_DATA_PROJECT_DIR.exists() is False:
         try:
-            PATH_TO_PROJECT_DATA_DIR.mkdir(exist_ok=True)
+            PATH_TO_USER_DATA_PROJECT_DIR.mkdir(exist_ok=True)
         except OSError as e:
             return e
 
@@ -165,9 +159,9 @@ def _delete_data_file() -> None:
 
 def _delete_project_data_dir() -> None:
     """
-    Deletes the .privateprefs dictionary created to store persistent data
+    Deletes the privateprefs dictionary created to store persistent data
     :return: None
     """
-    if PATH_TO_PROJECT_DATA_DIR.exists():
-        PATH_TO_PROJECT_DATA_DIR.rmdir()
+    if PATH_TO_USER_DATA_PROJECT_DIR.exists():
+        PATH_TO_USER_DATA_PROJECT_DIR.rmdir()
 
