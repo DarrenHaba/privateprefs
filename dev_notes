@@ -35,8 +35,15 @@ local usages
     python cli.py load foo
     -etc...
 
-# run pytest coverage
-    pytest --cov=privateprefs tests/
+run pytest coverage
+    hatch run cov
+    or run directly:
+        pytest --cov=privateprefs tests/
+        pytest --cov-report term-missing --cov=privateprefs tests/
 
-# run pytest coverage (with missing line numbers)
-    pytest --cov-report term-missing --cov=privateprefs tests/
+add toml dependencies and install (should use hatch instead)
+the -e will make in an editable install
+    pip install.
+    pip install -e .
+
+
