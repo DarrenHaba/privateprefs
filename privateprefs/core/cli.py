@@ -104,7 +104,7 @@ def print_key_value_table() -> None:
     :return: None
     """
     print()
-    print(f"key-value pair data stored in data.ini located at:")
+    print(f"key-value data pairs are stored in the data.ini file located at:")
     print(_db.PATH_TO_DATA_FILE)
     key_value_pairs = _db.read_keys()
     print()
