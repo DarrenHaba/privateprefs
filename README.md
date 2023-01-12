@@ -12,7 +12,7 @@
 
 `privateprefs` keeps sensitive data like API Keys, email addresses, usernames, etc, out 
 of your code, so sensitive data can't accidentally get added to private or public repositories like GitHub, 
-itLab, Bitbucket.
+itLab, Bitbucket, etc.
 
 -----
 
