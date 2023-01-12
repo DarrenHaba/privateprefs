@@ -83,7 +83,7 @@ privateprefs data
 ###### *returns*
 ```
 
-key-value pair data stored in data.ini located at:
+key-value data pairs are stored in the data.ini file located at:
 C:\Users\USER_NAME\AppData\Local\privateprefs\data.ini (running windows)
 
 data.ini file contents:
