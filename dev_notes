@@ -17,7 +17,7 @@ install pypi
 publish
     -update version in __about__.py
     -push to GitHub (ensure ci passes)
-    -install/run locally
+    -install/run/test locally
     hatch build
     hatch publish
 
