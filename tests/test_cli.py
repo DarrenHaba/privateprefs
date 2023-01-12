@@ -124,7 +124,7 @@ def test__open_file_with_application__windows(mocker):
         def startfile():
             return True
 
-        os.foobar = startfile
+        os.startfile = startfile
 
     mocker.patch(
         'privateprefs.core.cli.os.startfile',
