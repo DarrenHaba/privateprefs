@@ -84,9 +84,7 @@ privateprefs data
 ```
 
 key-value pair data stored in data.ini located at:
-C:\Users\USER_NAME\AppData\Local\privateprefs\data.ini (on windows)
-~/Library/Application Support/privateprefs/data.ini (on mac)
-~/.local/share/privateprefs (on linux)
+C:\Users\USER_NAME\AppData\Local\privateprefs\data.ini (running windows)
 
 data.ini file contents:
 +----------------+------------------------+
