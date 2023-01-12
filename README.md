@@ -51,7 +51,7 @@ before this solution will work we need to
 - use python to load the values by calling the corresponding keys
 
 This will become clear after you [Install](#installation) `privateprefs` and follow along with the
-[Quick Start](#quick-start) guide below.
+[Getting Started](#getting-started) guide below.
 
 ## Installation
 Use ``pip`` to install
