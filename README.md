@@ -12,7 +12,7 @@
 
 `privateprefs` keeps sensitive data like API Keys, email addresses, usernames, etc, out 
 of your code, so sensitive data can't accidentally get added to private or public repositories like GitHub, 
-itLab, Bitbucket, etc.
+GitLab, Bitbucket, etc.
 
 -----
 
@@ -25,11 +25,11 @@ itLab, Bitbucket, etc.
 - [License](#license)
 
 ### The Problem
-###### *Spammers and scammers can scrape code from private and even public repo* 😱
+###### *Spammers and scammers can scrape code from public and even private repos* 😱
 ```python
 secret_api_key = "mfnc80imW4RawjYwVLsArx"
 my_email = "darren@spammed.com"
-# @spammers please send me lots of spam and @hackers feel free hack my accounts!
+# @spammers please send me lots of spam and @hackers feel free to hack my accounts!
 # thanks, Your Next Victim.
 ```
 
@@ -51,7 +51,7 @@ before this solution will work we need to
 - use python to load the values by calling the corresponding keys
 
 This will become clear after you [Install](#installation) `privateprefs` and follow along with the
-[Quick Start](#quick-start) guide below.
+[Getting Started](#getting-started) guide below.
 
 ## Installation
 Use ``pip`` to install
@@ -83,10 +83,8 @@ privateprefs data
 ###### *returns*
 ```
 
-key-value pair data stored in data.ini located at:
-C:\Users\USER_NAME\AppData\Local\privateprefs\data.ini (on windows)
-~/Library/Application Support/privateprefs/data.ini (on mac)
-~/.local/share/privateprefs (on linux)
+key-value data pairs are stored in the data.ini file located at:
+C:\Users\USER_NAME\AppData\Local\privateprefs\data.ini (running windows)
 
 data.ini file contents:
 +----------------+------------------------+
@@ -101,7 +99,7 @@ The file path will very on different operating systems but here are the most com
 - ~/Library/Application Support/privateprefs/data.ini (on mac)
 - ~/.local/share/privateprefs/data.ini (on linux)
 
-The date table will list all saved/stored key-value pairs in the data.ini file.
+The data table will list all saved/stored key-value pairs in the data.ini file.
 
 ### Open the Data File
 ###### *run command*
@@ -119,12 +117,12 @@ Let's add the key `my_email` with a value of `darren@spammed.com` to the file ma
 ###### *data.ini with newly added line*
 ![private prefs data.ini file](https://github.com/DarrenHaba/privateprefs/blob/master/images/privateprefs_date_file_add_key_value.png?raw=true)
 
-For who don't like to use the cli (command line interface) feel free to edit the data.ini file directly but 
-please follow a few rules to ensure don't break it
+For those who don't like to use the cli (command line interface) feel free to edit the data.ini file directly, but 
+please follow a few rules to ensure you don't break the package
 1. The first line must contain `[privateprefs]`
 2. the next lines must be `my_key = my value` pairs
-3. don't add quotes to strings like `my_key = "my value"` ( don't do this! )
-4. it's best use the same name rules for keys as with [Python variables name](https://www.w3schools.com/python/gloss_python_variable_names.asp)
+3. don't add quotes to strings like `my_key = "my value"` (don't do this!)
+4. it's best to use the same name rules for keys as with [Python variables name](https://www.w3schools.com/python/gloss_python_variable_names.asp)
 
 ### Delete Value
 ```sh
@@ -140,7 +138,8 @@ privateprefs delete_all
 
 ### Conclusion
 You now have a basic understanding of how `privateprefs` works and how to use it. 
-We left out a few Python functions and CLI methods, as are covered in the docs below.
+We left out a few Python functions and CLI commands, but they are covered in the docs 
+below if you're interested.
 
 ## Python Docs
 
@@ -151,7 +150,7 @@ from privateprefs import load
 my_value = load("my_key")
 print(my_value)
 ```
-Return the `value` for the given `key` or `None` if key doesn't exist.
+Return the `value` for the given `key` or `None` if the key doesn't exist.
 
 ### Load All Values
 ```python 
@@ -176,7 +175,7 @@ print(f"My Value: {my_value}")
 does_my_other_key_exist = 'my_other_key' in my_value_dict.keys()
 print(f"does_my_other_key_exist: {does_my_other_key_exist}")
 ```
-Only returns key-value pairs that are in `filter_keys` list
+Only returns key-value pairs that are in the `filter_keys` list
 
 ### Load All Values as List of Tuples
 ```python 
@@ -253,7 +252,7 @@ Deletes all values.
 
 ### Data
 ```sh
-privateprefs date
+privateprefs data
 ```
 Display the data.ini file path and its contents as a data table.
 
