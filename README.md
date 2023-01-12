@@ -25,7 +25,7 @@ GitLab, Bitbucket, etc.
 - [License](#license)
 
 ### The Problem
-###### *Spammers and scammers can scrape code from private and even public repo* 😱
+###### *Spammers and scammers can scrape code from public and even private repos* 😱
 ```python
 secret_api_key = "mfnc80imW4RawjYwVLsArx"
 my_email = "darren@spammed.com"
