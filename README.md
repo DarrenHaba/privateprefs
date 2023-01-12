@@ -11,7 +11,7 @@
 [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
 
 `privateprefs` keeps sensitive data like API Keys, email addresses, usernames, etc, out 
-of you code, so sensitive data can't accidentally get added to private or public repositories like GitHub, 
+of your code, so sensitive data can't accidentally get added to private or public repositories like GitHub, 
 itLab, Bitbucket.
 
 -----
