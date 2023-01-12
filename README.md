@@ -29,7 +29,7 @@ GitLab, Bitbucket, etc.
 ```python
 secret_api_key = "mfnc80imW4RawjYwVLsArx"
 my_email = "darren@spammed.com"
-# @spammers please send me lots of spam and @hackers feel free hack my accounts!
+# @spammers please send me lots of spam and @hackers feel free to hack my accounts!
 # thanks, Your Next Victim.
 ```
 
