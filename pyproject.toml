@@ -43,6 +43,7 @@ path = "privateprefs/__about__.py"
 dependencies = [
   "pytest",
   "pytest-cov",
+  "pytest-mock",
 ]
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov=privateprefs --cov-report=xml --cov-report=term-missing"
