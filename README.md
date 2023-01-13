@@ -60,6 +60,7 @@ pip install privateprefs
 ```
 
 ## Getting Started
+
 ### Save Value
 ###### *run command*
 ```sh
@@ -142,6 +143,18 @@ We left out a few Python functions and CLI commands, but they are covered in the
 below if you're interested.
 
 ## Python Docs
+The following Python code assumes we have the following two saved
+key-value pairs
+###### *run these commands to add some data for testing*
+```sh
+privateprefs save my_key "my value"
+privateprefs save my_other_key "my other key"
+```
+###### *run these commands to remove the test data when done*
+```sh
+privateprefs delete my_key
+privateprefs delete my_other_key
+```
 
 ### Load Value
 ```python 
