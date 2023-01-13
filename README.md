@@ -34,7 +34,7 @@ my_email = "darren@spammed.com"
 ```
 
 ### The Solution
-###### *Use `privateprefs` and never hardcode sensitive data in your code again* 😎
+###### *Use `privateprefs` and never hard code sensitive data in your code again* 😎
 ```python
 import privateprefs as prefs
 secret_api_key = prefs.load("secret_api_key")
