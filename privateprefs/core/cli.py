@@ -11,9 +11,9 @@ import privateprefs.core.database as _db
 def _save_cli(key: str, value: str, group: None | str) -> None:
     """
     Saves the value for a given key.
-    :type group: The group name to store the key-value pairs under
+    :type group: The group name to save the key-value pair under
     :param key: A unique key to write the value under
-    :param value: The value to be save into persistent storage
+    :param value: The value to save into persistent storage
     :return: None
     """
     if group is None:
@@ -23,13 +23,17 @@ def _save_cli(key: str, value: str, group: None | str) -> None:
     print(f"saved: '{value}' to group: '{group}'")
 
 
-def _load_cli(key: str) -> None:
+def _load_cli(key: str, group: None | str) -> None:
     """
     Loads and returns the value for a given key
     :param key: A key to read the value of
+    :type group: The group name to load the key-value pair from
     :return: None
     """
-    value = _db.read(key)
+    if group is None:
+        group = _db.DEFAULT_GROUP_NAME
+
+    value = _db.read(key, group)
     print(f"loaded value: '{value}'")
 
 
@@ -200,6 +204,7 @@ def main(argv=None) -> None:
     # A function called '_load_cli' will be dynamically called when the 'load' command is invoked
     parser_load = subparsers.add_parser("load")
     parser_load.add_argument("key")
+    parser_load.add_argument("-g", "--group", dest='group')
 
     # The Data sub-parsers.
     # A function called '_data_cli' will be dynamically called when the '_data_cli' command is invoked
@@ -228,7 +233,6 @@ def main(argv=None) -> None:
     # Extract the name of the subcommand being invoked, note we pop/remove the subcommand name,
     # so now kwargs will be just the given arguments without the subcommand in the dict.
     func_name_to_call = kwargs.pop('subparser')  # will be: save, load, delete, etc.
-    print(kwargs)
 
     if func_name_to_call is None:
         #  'privateprefs' was called.
