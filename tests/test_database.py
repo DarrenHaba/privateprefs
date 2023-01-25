@@ -27,20 +27,33 @@ def setup_and_teardown():
 def test__write__no_group():
     _db.write(test_key, test_value)
     data_file = _db._get_config_parser_for_data_ini_file(_db.DEFAULT_GROUP_NAME)
-    loaded_result = data_file[_db.DEFAULT_GROUP_NAME][test_key]
-    assert loaded_result == test_value
+    loaded_value = data_file[_db.DEFAULT_GROUP_NAME][test_key]
+    assert loaded_value == test_value
 
 
 def test__write__with_group():
     _db.write(test_key, test_value, test_group)
-    data_file_config = _db._get_config_parser_for_data_ini_file(test_group)
-    loaded_result = data_file_config[test_group][test_key]
-    assert loaded_result == test_value
+    data_file = _db._get_config_parser_for_data_ini_file(test_group)
+    loaded_value = data_file[test_group][test_key]
+    assert loaded_value == test_value
 
 
-def test__read():
-    _db.write(test_key, test_value)
+def test__read__no_group():
+    data_file = _db._get_config_parser_for_data_ini_file()
+    data_file.set(_db.DEFAULT_GROUP_NAME, test_key, test_value)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
+
     assert _db.read(test_key) == test_value
+
+
+def test__read__with_group():
+    data_file = _db._get_config_parser_for_data_ini_file(test_group)
+    data_file.set(test_group, test_key, test_value)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
+
+    assert _db.read(test_key, test_group) == test_value
 
 
 def test__read_keys__as_dict():
