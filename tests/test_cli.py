@@ -31,12 +31,10 @@ def setup_and_teardown():
 
 
 def test__command__save__no_group(capsys):
-    with capsys.disabled():
-        main(["save", test_key, test_value])
-    main(["load", test_key])
+    main(["save", test_key, test_value])
     cli_output = capsys.readouterr().out
 
-    data_file = _db._get_config_parser_for_data_ini_file(_db.DEFAULT_GROUP_NAME)
+    data_file = _db._get_config_parser_for_data_ini_file()
     loaded_value = data_file[_db.DEFAULT_GROUP_NAME][test_key]
 
     assert cli_output.__contains__(test_value)
@@ -141,7 +139,6 @@ def test__command__open__did_open_file__false(mocker, capsys):
     )
     main(["open"])
     capture = capsys.readouterr().out
-    print(capture)
     assert capture.__contains__("sorry, could not open the file on you operating system")
 
 
