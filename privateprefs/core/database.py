@@ -31,15 +31,19 @@ def write(key: str, value: str, group: None | str = None) -> None:
         data_file_config.write(file)
 
 
-def read(key: str) -> str | None:
+def read(key: str, group: None | str = None) -> str | None:
     """
     Reads and returns the value for a given key from the data.ini file.
     :param key: A key to read the value of
+    :type group: The group name to load the key-value pairs from
     :return: The value stored under the given key, or None if the key does not exist
     """
-    data_file_config = _get_config_parser_for_data_ini_file()
+    if group is None:
+        group = DEFAULT_GROUP_NAME
+
+    data_file_config = _get_config_parser_for_data_ini_file(group)
     try:
-        return data_file_config[DEFAULT_GROUP_NAME][key]
+        return data_file_config[group][key]
     except KeyError:
         return None
 
