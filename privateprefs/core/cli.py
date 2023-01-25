@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import subprocess
 import os
@@ -6,15 +8,19 @@ import platform
 import privateprefs.core.database as _db
 
 
-def _save_cli(key: str, value: str) -> None:
+def _save_cli(key: str, value: str, group: None | str) -> None:
     """
     Saves the value for a given key.
+    :type group: The group name to store the key-value pairs under
     :param key: A unique key to write the value under
     :param value: The value to be save into persistent storage
     :return: None
     """
-    _db.write(key, value)
-    print(f"saved value: '{value}'")
+    if group is None:
+        group = _db.DEFAULT_GROUP_NAME
+
+    _db.write(key, value, group)
+    print(f"saved: '{value} to group: {group}'")
 
 
 def _load_cli(key: str) -> None:
@@ -188,6 +194,7 @@ def main(argv=None) -> None:
     parser_save = subparsers.add_parser("save")
     parser_save.add_argument("key")
     parser_save.add_argument("value")
+    parser_save.add_argument("-g", "--group")
 
     # The Load sub-parsers.
     # A function called '_load_cli' will be dynamically called when the 'load' command is invoked
