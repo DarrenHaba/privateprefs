@@ -48,28 +48,15 @@ def read(key: str, group: None | str = None) -> str | None:
         return None
 
 
-def read_keys(keys: list = None, return_as_list: bool = False) -> dict | list:
+def read_keys(group: str) -> dict:
     """
-    Reads and returns key-value pairs for the given keys.
-    :param keys: List of keys to return, by default all key-value pairs will be returned.
-    :param return_as_list: If true a list of tuples will be returned, If false the default dict will be returned
-    :return: A dict of key-value pairs by default, or a list of tuples.
+    Returns a dict of all key-value pairs for the given group.
+    :type group: The group name to load all key-value pairs from
+    :return: A dict of key-value pairs
     """
     data_file_config = _get_config_parser_for_data_ini_file()
-    tuple_key_values = data_file_config.items(DEFAULT_GROUP_NAME)
-
-    filtered_list = []
-    if keys is None:
-        filtered_list = tuple_key_values
-    else:
-        for tuple_key_value in tuple_key_values:
-            key = tuple_key_value[0]
-            if keys.__contains__(key):
-                filtered_list.append(tuple_key_value)
-
-    if return_as_list:
-        return filtered_list
-    return dict(filtered_list)
+    tuple_key_values = data_file_config.items(group)
+    return dict(tuple_key_values)
 
 
 def delete(key: str) -> None:
