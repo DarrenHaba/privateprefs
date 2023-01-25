@@ -1,24 +1,41 @@
+from pathlib import Path
+
 import pytest
 import privateprefs.core.database as _db
 
 test_key = "test key"
 test_key2 = "test key2"
+test_group = "test group"
 test_value = "test value"
 test_value2 = "test value2"
 
 
 @pytest.fixture(autouse=True)
 def setup_and_teardown():
-    # set up
-    _db.delete_all()
+    # -- set up --
+
+    # create a new data file used for testing
+    _db.PATH_TO_DATA_FILE = _db.PATH_TO_USER_DATA_PROJECT_DIR / "data_unit_test.ini"
+
     yield
-    # tear down
-    _db.delete_all()
+    # -- tear down --
+
+    # delete the data file used for testing
+    _db.PATH_TO_DATA_FILE.unlink()
 
 
-def test__save():
+def test__write__no_group():
     _db.write(test_key, test_value)
-    assert _db.read(test_key) == test_value
+    data_file_config = _db._get_config_parser_for_data_ini_file(_db.DEFAULT_GROUP_NAME)
+    loaded_result = data_file_config[_db.DEFAULT_GROUP_NAME][test_key]
+    assert loaded_result == test_value
+
+
+def test__write__with_group():
+    _db.write(test_key, test_value, test_group)
+    data_file_config = _db._get_config_parser_for_data_ini_file(test_group)
+    loaded_result = data_file_config[test_group][test_key]
+    assert loaded_result == test_value
 
 
 def test__read():
