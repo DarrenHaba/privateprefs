@@ -5,28 +5,66 @@ import pytest
 
 import privateprefs.core.cli as cli
 from privateprefs.core.cli import main
+import privateprefs.core.database as _db
 
 test_key = "test key"
 test_key2 = "test key2"
+
 test_value = "test value"
 test_value2 = "test value2"
+
+test_group = "test group"
 
 
 @pytest.fixture(autouse=True)
 def setup_and_teardown():
-    # set up
-    main(["delete_all"])
+    # -- set up --
+
+    # create a new data file used for testing
+    _db.PATH_TO_DATA_FILE = _db.PATH_TO_USER_DATA_PROJECT_DIR / "data_unit_test.ini"
+
     yield
-    # tear down
-    main(["delete_all"])
+    # -- tear down --
+
+    # delete the data file used for testing
+    _db.PATH_TO_DATA_FILE.unlink()
 
 
-def test__command__save(capsys):
+def test__command__save__no_group(capsys):
     with capsys.disabled():
         main(["save", test_key, test_value])
     main(["load", test_key])
-    capture = capsys.readouterr()
-    assert capture.out.__contains__(test_value)
+    cli_output = capsys.readouterr().out
+
+    data_file = _db._get_config_parser_for_data_ini_file(_db.DEFAULT_GROUP_NAME)
+    loaded_value = data_file[_db.DEFAULT_GROUP_NAME][test_key]
+
+    assert cli_output.__contains__(test_value)
+    assert loaded_value == test_value
+
+
+def test__command__save__with_group_shorthand(capsys):
+    main(["save", test_key, test_value, "-g", test_group])
+    cli_output = capsys.readouterr().out
+
+    data_file = _db._get_config_parser_for_data_ini_file(test_group)
+    loaded_value = data_file[test_group][test_key]
+
+    assert cli_output.__contains__(test_value)
+    assert cli_output.__contains__(test_group)
+    assert loaded_value == test_value
+
+
+def test__command__save__with_group_full_group_name(capsys):
+    main(["save", test_key, test_value, "--group", test_group])
+    cli_output = capsys.readouterr().out
+
+    data_file = _db._get_config_parser_for_data_ini_file(test_group)
+    loaded_value = data_file[test_group][test_key]
+
+    assert cli_output.__contains__(test_value)
+    assert cli_output.__contains__(test_group)
+    assert loaded_value == test_value
 
 
 def test__command__load(capsys):
