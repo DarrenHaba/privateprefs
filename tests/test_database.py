@@ -26,8 +26,8 @@ def setup_and_teardown():
 
 def test__write__no_group():
     _db.write(test_key, test_value)
-    data_file_config = _db._get_config_parser_for_data_ini_file(_db.DEFAULT_GROUP_NAME)
-    loaded_result = data_file_config[_db.DEFAULT_GROUP_NAME][test_key]
+    data_file = _db._get_config_parser_for_data_ini_file(_db.DEFAULT_GROUP_NAME)
+    loaded_result = data_file[_db.DEFAULT_GROUP_NAME][test_key]
     assert loaded_result == test_value
 
 
