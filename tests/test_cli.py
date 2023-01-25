@@ -65,12 +65,17 @@ def test__command__save__with_group_full_group_name(capsys):
     assert loaded_value == test_value
 
 
-def test__command__load(capsys):
-    with capsys.disabled():
-        main(["save", test_key, test_value])
+def test__command__load__no_group(capsys):
+    data_file = _db._get_config_parser_for_data_ini_file()
+    data_file.set(_db.DEFAULT_GROUP_NAME, test_key, test_value)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
+
     main(["load", test_key])
     capture = capsys.readouterr()
+
     assert capture.out.__contains__(test_value)
+    assert _db.read(test_key) == test_value
 
 
 def test__command__data(capsys):
