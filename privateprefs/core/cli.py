@@ -20,7 +20,7 @@ def _save_cli(key: str, value: str, group: None | str) -> None:
         group = _db.DEFAULT_GROUP_NAME
 
     _db.write(key, value, group)
-    print(f"saved: '{value} to group: {group}'")
+    print(f"saved: '{value}' to group: '{group}'")
 
 
 def _load_cli(key: str) -> None:
@@ -194,7 +194,7 @@ def main(argv=None) -> None:
     parser_save = subparsers.add_parser("save")
     parser_save.add_argument("key")
     parser_save.add_argument("value")
-    parser_save.add_argument("-g", "--group")
+    parser_save.add_argument("-g", "--group", dest='group')
 
     # The Load sub-parsers.
     # A function called '_load_cli' will be dynamically called when the 'load' command is invoked
@@ -228,6 +228,7 @@ def main(argv=None) -> None:
     # Extract the name of the subcommand being invoked, note we pop/remove the subcommand name,
     # so now kwargs will be just the given arguments without the subcommand in the dict.
     func_name_to_call = kwargs.pop('subparser')  # will be: save, load, delete, etc.
+    print(kwargs)
 
     if func_name_to_call is None:
         #  'privateprefs' was called.
