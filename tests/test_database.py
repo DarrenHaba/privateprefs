@@ -4,10 +4,12 @@ import pytest
 import privateprefs.core.database as _db
 
 test_key = "test key"
-test_key2 = "test key2"
 test_group = "test group"
 test_value = "test value"
+
+test_key2 = "test key2"
 test_value2 = "test value2"
+test_group2 = "test group2"
 
 
 @pytest.fixture(autouse=True)
@@ -56,32 +58,54 @@ def test__read__with_group():
     assert _db.read(test_key, test_group) == test_value
 
 
-def test__read_keys__as_dict():
-    _db.write(test_key, test_value)
-    _db.write(test_key2, test_value2)
-    key_values = _db.read_keys()
-    assert key_values[test_key] == test_value and key_values[test_key2] == test_value2
+def test__read_keys():
+    data_file = _db._get_config_parser_for_data_ini_file(test_group)
+    data_file.set(test_group, test_key, test_value)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
+
+    data_file = _db._get_config_parser_for_data_ini_file(test_group)
+    data_file.set(test_group, test_key2, test_value2)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
+
+    group = _db.read_keys(test_group)
+
+    assert group[test_key] == test_value
+    assert group[test_key2] == test_value2
 
 
-def test__read_keys__as_dict__filtered():
-    _db.write(test_key, test_value)
-    _db.write(test_key2, test_value2)
-    key_values = _db.read_keys(keys=[test_key2])
-    assert key_values[test_key2] == test_value2 and len(key_values) == 1
+def test__read_keys__get_only_from_group():
+    data_file = _db._get_config_parser_for_data_ini_file(test_group)
+    data_file.set(test_group, test_key, test_value)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
+
+    data_file = _db._get_config_parser_for_data_ini_file(test_group2)
+    data_file.set(test_group2, test_key2, test_value2)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
+
+    group = _db.read_keys(test_group)
+
+    assert group[test_key] == test_value
+    assert len(group) == 1
 
 
-def test__read_keys__as_list():
-    _db.write(test_key, test_value)
-    _db.write(test_key2, test_value2)
-    key_values = _db.read_keys(return_as_list=True)
-    assert key_values[0][1] == test_value and key_values[1][1] == test_value2
+def test__read_keys__group_does_not_exist():
+    data_file = _db._get_config_parser_for_data_ini_file(test_group)
+    data_file.set(test_group, test_key, test_value)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
 
+    data_file = _db._get_config_parser_for_data_ini_file(test_group2)
+    data_file.set(test_group2, test_key2, test_value2)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
 
-def test__read_keys__as_list__filtered():
-    _db.write(test_key, test_value)
-    _db.write(test_key2, test_value2)
-    key_values = _db.read_keys(keys=[test_key2], return_as_list=True)
-    assert key_values[0][1] == test_value2 and len(key_values) == 1
+    group = _db.read_keys("key dose not exist")
+
+    assert group == {}
 
 
 def test__delete():
@@ -141,5 +165,6 @@ def test___delete_project_data_dir__mock_exists__false(mocker):
     dose_dir_exists_after_delete = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
     print(dose_dir_exists_after_delete)
     assert dose_dir_exists_after_delete is False
+
 
 
