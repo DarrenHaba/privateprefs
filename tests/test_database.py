@@ -97,11 +97,51 @@ def test__delete__with_group():
     assert dose_data_file_contain_test_key is False
 
 
-def test__delete_all():
-    _db.write(test_key, test_value)
-    _db.write(test_key2, test_value2)
-    _db.delete_all()
-    assert _db.read(test_key) is None
+def test__delete_all__no_group():
+    group = _db.DEFAULT_GROUP_NAME
+    _add_group_key_value_to_data_file(test_key, test_value, None)
+    dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
+    assert dose_data_file_contain_test_key is True
+
+    _add_group_key_value_to_data_file(test_key2, test_value2, None)
+    dose_data_file_contain_test_key2 = _get_data_file_values(group)[group].__contains__(test_key2)
+    assert dose_data_file_contain_test_key2 is True
+
+    _db.delete_all(group)
+
+    dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
+    assert dose_data_file_contain_test_key is False
+
+    dose_data_file_contain_test_key2 = _get_data_file_values(group)[group].__contains__(test_key2)
+    assert dose_data_file_contain_test_key2 is False
+
+
+def test__delete_all__with_group():
+    group = test_group
+    _add_group_key_value_to_data_file(test_key, test_value, group)
+    dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
+    assert dose_data_file_contain_test_key is True
+
+    _add_group_key_value_to_data_file(test_key2, test_value2, group)
+    dose_data_file_contain_test_key2 = _get_data_file_values(group)[group].__contains__(test_key2)
+    assert dose_data_file_contain_test_key2 is True
+
+    _db.delete_all(group)
+
+    dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
+    assert dose_data_file_contain_test_key is False
+
+    dose_data_file_contain_test_key2 = _get_data_file_values(group)[group].__contains__(test_key2)
+    assert dose_data_file_contain_test_key2 is False
+
+
+def test__delete_all__group_does_not_exist():
+    group = "this group does not exist"
+    _db.delete_all(group)
+    # Group doesn't exist so no values to delete.
+    # If group name is misspelled function will fail silently.
+    # Not sure if we should throw an error if group doesn't exist?
+    assert True
 
 
 def test__delete_data_file():
