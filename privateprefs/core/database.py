@@ -64,14 +64,18 @@ def read_keys(group: str) -> dict:
 
 
 
-def delete(key: str) -> None:
+def delete(key: str, group: str | None = None) -> None:
     """
     Deletes a key-value pair from the data.ini file for the given key.
     :param key: A key that will be used to delete the corresponding key-value pair
+    :param group: The group name to delete the value from, is None key will be deleted
+    from default group [NO_GROUP]
     :return: None
     """
+    if group is None:
+        group = DEFAULT_GROUP_NAME
     data_file_config = _get_config_parser_for_data_ini_file()
-    data_file_config.remove_option(DEFAULT_GROUP_NAME, key)
+    data_file_config.remove_option(group, key)
 
     with PATH_TO_DATA_FILE.open("w") as file:
         data_file_config.write(file)
