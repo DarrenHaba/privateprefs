@@ -10,7 +10,7 @@ PROJECT_NAME = "privateprefs"
 PATH_TO_USER_DATA_PROJECT_DIR = pathlib.Path(user_data_dir(PROJECT_NAME, appauthor=False))
 PATH_TO_DATA_FILE = PATH_TO_USER_DATA_PROJECT_DIR / "data.ini"
 PATH_TO_CONFIG_FILE = pathlib.Path(PATH_TO_USER_DATA_PROJECT_DIR) / "config.ini"
-DEFAULT_GROUP_NAME = "default"
+DEFAULT_GROUP_NAME = "NO_GROUP"
 
 
 def write(key: str, value: str, group: None | str = None) -> None:
@@ -54,12 +54,14 @@ def read_keys(group: str) -> dict:
     :param group: The group name to load all key-value pairs from
     :return: A dict of key-value pairs
     """
+
     data_file_config = _get_config_parser_for_data_ini_file()
     try:
         tuple_key_values = data_file_config.items(group)
     except (ValueError, Exception):
         return {}
     return dict(tuple_key_values)
+
 
 
 def delete(key: str) -> None:
@@ -163,6 +165,3 @@ def _delete_project_data_dir() -> None:
     """
     if PATH_TO_USER_DATA_PROJECT_DIR.exists():
         PATH_TO_USER_DATA_PROJECT_DIR.rmdir()
-
-if __name__ == "__main__":
-    read_keys("baz")
