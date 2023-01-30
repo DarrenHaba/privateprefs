@@ -77,18 +77,24 @@ def test__read_keys__group_does_not_exist():
     assert group == {}
 
 
-def test__delete():
-    _db.write(test_key, test_value)
-    _db.write(test_key2, test_value2)
+def test__delete__no_group():
+    group = _db.DEFAULT_GROUP_NAME
+    _add_group_key_value_to_data_file(test_key, test_value, None)
+    dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
+    assert dose_data_file_contain_test_key is True
     _db.delete(test_key)
-    assert _db.read(test_key) is None and _db.read(test_key2) == test_value2
+    dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
+    assert dose_data_file_contain_test_key is False
 
 
-# def test__delete():
-#     _db.write(test_key, test_value)
-#     _db.write(test_key2, test_value2)
-#     _db.delete(test_key)
-#     assert _db.read(test_key) is None and _db.read(test_key2) == test_value2
+def test__delete__with_group():
+    group = test_group
+    _add_group_key_value_to_data_file(test_key, test_value, group)
+    dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
+    assert dose_data_file_contain_test_key is True
+    _db.delete(test_key, group)
+    dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
+    assert dose_data_file_contain_test_key is False
 
 
 def test__delete_all():
@@ -143,7 +149,6 @@ def test___delete_project_data_dir__mock_exists__false(mocker):
     assert dose_dir_exists_after_delete is False
 
 
-
 def _add_group_key_value_to_data_file(key, value, group):
     if group is None:
         group = _db.DEFAULT_GROUP_NAME
@@ -151,3 +156,7 @@ def _add_group_key_value_to_data_file(key, value, group):
     data_file.set(group, key, value)
     with _db.PATH_TO_DATA_FILE.open("w") as file:
         data_file.write(file)
+
+
+def _get_data_file_values(group):
+    return _db._get_config_parser_for_data_ini_file(group)
