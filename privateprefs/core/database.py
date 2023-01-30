@@ -51,11 +51,14 @@ def read(key: str, group: None | str = None) -> str | None:
 def read_keys(group: str) -> dict:
     """
     Returns a dict of all key-value pairs for the given group.
-    :type group: The group name to load all key-value pairs from
+    :param group: The group name to load all key-value pairs from
     :return: A dict of key-value pairs
     """
     data_file_config = _get_config_parser_for_data_ini_file()
-    tuple_key_values = data_file_config.items(group)
+    try:
+        tuple_key_values = data_file_config.items(group)
+    except (ValueError, Exception):
+        return {}
     return dict(tuple_key_values)
 
 
@@ -161,3 +164,5 @@ def _delete_project_data_dir() -> None:
     if PATH_TO_USER_DATA_PROJECT_DIR.exists():
         PATH_TO_USER_DATA_PROJECT_DIR.rmdir()
 
+if __name__ == "__main__":
+    read_keys("baz")
