@@ -41,70 +41,39 @@ def test__write__with_group():
 
 
 def test__read__no_group():
-    data_file = _db._get_config_parser_for_data_ini_file()
-    data_file.set(_db.DEFAULT_GROUP_NAME, test_key, test_value)
-    with _db.PATH_TO_DATA_FILE.open("w") as file:
-        data_file.write(file)
-
+    _add_group_key_value_to_data_file(test_key, test_value, None)
     assert _db.read(test_key) == test_value
 
 
 def test__read__with_group():
-    data_file = _db._get_config_parser_for_data_ini_file(test_group)
-    data_file.set(test_group, test_key, test_value)
-    with _db.PATH_TO_DATA_FILE.open("w") as file:
-        data_file.write(file)
-
+    _add_group_key_value_to_data_file(test_key, test_value, test_group)
     assert _db.read(test_key, test_group) == test_value
 
 
+def test__read__group_does_not_exist():
+    assert _db.read(test_key, "this group does not exist") is None
+
+
 def test__read_keys():
-    data_file = _db._get_config_parser_for_data_ini_file(test_group)
-    data_file.set(test_group, test_key, test_value)
-    with _db.PATH_TO_DATA_FILE.open("w") as file:
-        data_file.write(file)
-
-    data_file = _db._get_config_parser_for_data_ini_file(test_group)
-    data_file.set(test_group, test_key2, test_value2)
-    with _db.PATH_TO_DATA_FILE.open("w") as file:
-        data_file.write(file)
-
+    _add_group_key_value_to_data_file(test_key, test_value, test_group)
+    _add_group_key_value_to_data_file(test_key2, test_value2, test_group)
     group = _db.read_keys(test_group)
-
     assert group[test_key] == test_value
     assert group[test_key2] == test_value2
 
 
 def test__read_keys__get_only_from_group():
-    data_file = _db._get_config_parser_for_data_ini_file(test_group)
-    data_file.set(test_group, test_key, test_value)
-    with _db.PATH_TO_DATA_FILE.open("w") as file:
-        data_file.write(file)
-
-    data_file = _db._get_config_parser_for_data_ini_file(test_group2)
-    data_file.set(test_group2, test_key2, test_value2)
-    with _db.PATH_TO_DATA_FILE.open("w") as file:
-        data_file.write(file)
-
+    _add_group_key_value_to_data_file(test_key, test_value, test_group)
+    _add_group_key_value_to_data_file(test_key2, test_value2, test_group2)
     group = _db.read_keys(test_group)
-
     assert group[test_key] == test_value
     assert len(group) == 1
 
 
 def test__read_keys__group_does_not_exist():
-    data_file = _db._get_config_parser_for_data_ini_file(test_group)
-    data_file.set(test_group, test_key, test_value)
-    with _db.PATH_TO_DATA_FILE.open("w") as file:
-        data_file.write(file)
-
-    data_file = _db._get_config_parser_for_data_ini_file(test_group2)
-    data_file.set(test_group2, test_key2, test_value2)
-    with _db.PATH_TO_DATA_FILE.open("w") as file:
-        data_file.write(file)
-
+    _add_group_key_value_to_data_file(test_key, test_value, test_group)
+    _add_group_key_value_to_data_file(test_key2, test_value2, test_group2)
     group = _db.read_keys("key dose not exist")
-
     assert group == {}
 
 
@@ -113,6 +82,13 @@ def test__delete():
     _db.write(test_key2, test_value2)
     _db.delete(test_key)
     assert _db.read(test_key) is None and _db.read(test_key2) == test_value2
+
+
+# def test__delete():
+#     _db.write(test_key, test_value)
+#     _db.write(test_key2, test_value2)
+#     _db.delete(test_key)
+#     assert _db.read(test_key) is None and _db.read(test_key2) == test_value2
 
 
 def test__delete_all():
@@ -168,3 +144,10 @@ def test___delete_project_data_dir__mock_exists__false(mocker):
 
 
 
+def _add_group_key_value_to_data_file(key, value, group):
+    if group is None:
+        group = _db.DEFAULT_GROUP_NAME
+    data_file = _db._get_config_parser_for_data_ini_file(group)
+    data_file.set(group, key, value)
+    with _db.PATH_TO_DATA_FILE.open("w") as file:
+        data_file.write(file)
