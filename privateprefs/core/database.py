@@ -81,7 +81,7 @@ def delete(key: str, group: str | None = None) -> None:
         data_file_config.write(file)
 
 
-def delete_all(group) -> None:
+def delete_all(group: str) -> None:
     """
     Deletes all key-value pair from the data.ini file.
     :param group: The group name to delete all the key-values from. To delete the default
