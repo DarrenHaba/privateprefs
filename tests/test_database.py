@@ -1,4 +1,5 @@
-from pathlib import Path
+import pathlib
+from platformdirs import user_data_dir
 
 import pytest
 import privateprefs.core.database as _db
@@ -16,6 +17,8 @@ test_group2 = "test group2"
 def setup_and_teardown():
     # -- set up --
 
+    # create a new path for testing
+    _db.PATH_TO_USER_DATA_PROJECT_DIR = pathlib.Path(user_data_dir(_db.PROJECT_NAME + "_unit_test", appauthor=False))
     # create a new data file used for testing
     _db.PATH_TO_DATA_FILE = _db.PATH_TO_USER_DATA_PROJECT_DIR / "data_unit_test.ini"
 
@@ -23,7 +26,8 @@ def setup_and_teardown():
     # -- tear down --
 
     # delete the data file used for testing
-    _db.PATH_TO_DATA_FILE.unlink()
+    if _db.PATH_TO_DATA_FILE.exists():
+        _db.PATH_TO_DATA_FILE.unlink()
 
 
 def test__write__no_group():
@@ -107,7 +111,7 @@ def test__delete_all__no_group():
     dose_data_file_contain_test_key2 = _get_data_file_values(group)[group].__contains__(test_key2)
     assert dose_data_file_contain_test_key2 is True
 
-    _db.delete_all(group)
+    _db.delete_all(None)
 
     dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
     assert dose_data_file_contain_test_key is False
@@ -153,8 +157,8 @@ def test__delete_data_file():
     assert dose_file_exists_after_delete is False
 
 
-def test___delete_project_data_dir():
-    _db.write(test_key, test_value)
+def test__delete_project_data_dir():
+    _add_group_key_value_to_data_file(test_key, test_value, test_group)
     dose_dir_exists_before_delete = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
     _db._delete_data_file()
     _db._delete_project_data_dir()
@@ -163,30 +167,24 @@ def test___delete_project_data_dir():
     assert dose_dir_exists_after_delete is False
 
 
-def test___delete_project_data_dir__mock_exists__true(mocker):
-    mocker.patch(
-        'privateprefs.core.database.pathlib.Path.exists',
-        return_value=True
-    )
-    _db.write(test_key, test_value)
+def test__delete_project_data_dir__dose_non_exist():
+    dose_dir_exists_before_delete = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
     _db._delete_data_file()
     _db._delete_project_data_dir()
     dose_dir_exists_after_delete = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
-    print(dose_dir_exists_after_delete)
-    assert dose_dir_exists_after_delete is True
-
-
-def test___delete_project_data_dir__mock_exists__false(mocker):
-    mocker.patch(
-        'privateprefs.core.database.pathlib.Path.exists',
-        return_value=False
-    )
-    _db.write(test_key, test_value)
-    _db._delete_data_file()
-    _db._delete_project_data_dir()
-    dose_dir_exists_after_delete = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
-    print(dose_dir_exists_after_delete)
+    assert dose_dir_exists_before_delete is False
     assert dose_dir_exists_after_delete is False
+
+
+def test__ensure_project_data_dir_exists():
+    _add_group_key_value_to_data_file(test_key, test_value, test_group)
+    pre_path_exist = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
+    _db._delete_data_file()
+    _db._delete_project_data_dir()
+    post_path_exist = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
+    print()
+    assert pre_path_exist is True
+    assert post_path_exist is False
 
 
 def _add_group_key_value_to_data_file(key, value, group):
