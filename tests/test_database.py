@@ -22,6 +22,10 @@ def setup_and_teardown():
     # create a new data file used for testing
     _db.PATH_TO_DATA_FILE = _db.PATH_TO_USER_DATA_PROJECT_DIR / "data_unit_test.ini"
 
+    # delete last data file used for testing (if left over for some reason)
+    if _db.PATH_TO_DATA_FILE.exists():
+        _db.PATH_TO_DATA_FILE.unlink()
+
     yield
     # -- tear down --
 
