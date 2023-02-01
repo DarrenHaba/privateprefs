@@ -1,6 +1,8 @@
 import os
+import pathlib
 import platform
 
+from platformdirs import user_data_dir
 import pytest
 
 import privateprefs.core.cli as cli
@@ -20,14 +22,22 @@ test_group = "test group"
 def setup_and_teardown():
     # -- set up --
 
+    # create a new path for testing
+    _db.PATH_TO_USER_DATA_PROJECT_DIR = pathlib.Path(user_data_dir(_db.PROJECT_NAME + "_unit_test", appauthor=False))
     # create a new data file used for testing
     _db.PATH_TO_DATA_FILE = _db.PATH_TO_USER_DATA_PROJECT_DIR / "data_unit_test.ini"
+
+    # delete last data file used for testing (if left over for some reason)
+    if _db.PATH_TO_DATA_FILE.exists():
+        _db.PATH_TO_DATA_FILE.unlink()
 
     yield
     # -- tear down --
 
     # delete the data file used for testing
-    _db.PATH_TO_DATA_FILE.unlink()
+    if _db.PATH_TO_DATA_FILE.exists():
+        _db.PATH_TO_DATA_FILE.unlink()
+
 
 
 def test__command__save__no_group(capsys):
@@ -133,13 +143,13 @@ def test__command__data__empty(capsys):
     assert displays_empty_list
 
 
-def test__command__delete_all(capsys):
+def test__command__delete_group(capsys):
     with capsys.disabled():
-        main(["save", test_key, test_value])
+        main(["save", test_key, test_value, "-g", test_group])
         main(["save", test_key2, test_value2])
-    main(["delete_all"])
+    main(["delete_group", test_group])
     capture = capsys.readouterr()
-    all_key_value_deleted = capture.out.__contains__("all key-value pairs deleted")
+    all_key_value_deleted = capture.out.__contains__(f"deleted group: '{test_group}'")
     assert all_key_value_deleted
 
 
@@ -153,9 +163,18 @@ def test__command__delete(capsys):
 
 
 def test__command__pre_uninstall(capsys):
+    main(["save", test_key, test_value])  # create data.ini file and folder
+    dose_file_exist = _db.PATH_TO_DATA_FILE.exists()
+    dose_dir_exist = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
+    assert dose_file_exist is True
+    assert dose_dir_exist is True
     main(["pre_uninstall"])
+    dose_file_exist = _db.PATH_TO_DATA_FILE.exists()
+    dose_dir_exist = _db.PATH_TO_USER_DATA_PROJECT_DIR.exists()
+    assert dose_file_exist is False
+    assert dose_dir_exist is False
     capture = capsys.readouterr().out
-    assert capture.__contains__("removed all persistent files and")
+    assert capture.__contains__("removed all persistent files and folders")
 
 
 def test__command__open__did_open_file__true(mocker, capsys):
@@ -165,7 +184,6 @@ def test__command__open__did_open_file__true(mocker, capsys):
     )
     main(["open"])
     capture = capsys.readouterr().out
-    print(capture)
     assert capture.__contains__("opened data.ini file in default application")
 
 
@@ -239,3 +257,12 @@ def test__privateprefs_cli(capsys):
     main("")
     capture = capsys.readouterr().out
     assert capture.__contains__("Thanks for using Private Prefs!")
+
+
+def test__print_key_value_table__is_group_test_longer_the_table(capsys):
+    with capsys.disabled():
+        main(["save", test_key, test_value, "-g", "too long group name here"])
+    cli.print_key_value_table()
+    capture = capsys.readouterr().out
+    # test key and test value will both have lots of white space after them.
+    assert capture.__contains__("| test key          | test value        |")
