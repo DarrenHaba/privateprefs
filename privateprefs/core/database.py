@@ -63,6 +63,21 @@ def read_keys(group: str) -> dict:
     return dict(tuple_key_values)
 
 
+def read_groups() -> dict:
+    """
+    Returns a dict of all groups, containing dicts of key-value pairs.
+    :return: A nested dict of groups, key-values
+    """
+    groups = {}
+    data_file_config = _get_config_parser_for_data_ini_file()
+    try:
+        for group in data_file_config.sections():
+            tuple_key_values = data_file_config.items(group)
+            groups[group] = dict(tuple_key_values)
+    except (ValueError, Exception):
+        return {}
+    return groups
+
 
 def delete(key: str, group: str | None = None) -> None:
     """
@@ -81,9 +96,9 @@ def delete(key: str, group: str | None = None) -> None:
         data_file_config.write(file)
 
 
-def delete_all(group: str) -> None:
+def delete_group(group: str | None) -> None:
     """
-    Deletes all key-value pair from the data.ini file.
+    Deletes a group and all saved key-value pairs stored in the group.
     :param group: The group name to delete all the key-values from. To delete the default
     group [NO_GROUP] enter 'NO_GROUP'
     :return: None
@@ -146,13 +161,15 @@ def _ensure_project_data_dir_exists() -> None:
 
 def _ensure_section_name_exists(config_parser: configparser, group_name: str | None = None) -> None:
     """
-    We store all data under a section named the same as the project name e.g. [privateprefs].
-    This name doesn't exist for new ini files, so we make sure it is added here.
-    :type group_name: The group name to store the key-value pairs under
+    All data in stored under groups (aka a configparser section). Here we make sure that
+    the given group exists, if the group doesn't exist in the data.ini files we create
+    a new group, if the group doesn't exist we bo nothing.
+    :param group_name: The group name that need to exist in the data.ini file
     :param config_parser: An instance of ConfigParser()
     :return: None
     """
     if group_name is None:
+        # No group given so use the default group named "NO_GROUP"
         group_name = DEFAULT_GROUP_NAME
     if not config_parser.sections().__contains__(group_name):
         config_parser.add_section(group_name)
