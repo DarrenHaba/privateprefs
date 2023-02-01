@@ -28,7 +28,7 @@ def delete_all(group: str) -> None:
     :param group: The group name to delete all the key-values from. To delete the default
     :return: None
     """
-    _db.delete_all(group)
+    _db.delete_group(group)
 
 
 def delete(key: str, group: str | None = None) -> None:
