@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 import subprocess
 import os
 import platform
@@ -11,9 +12,9 @@ import privateprefs.core.database as _db
 def _save_cli(key: str, value: str, group: None | str) -> None:
     """
     Saves the value for a given key.
-    :type group: The group name to save the key-value pair under
     :param key: A unique key to write the value under
     :param value: The value to save into persistent storage
+    :param group: The group name to save the key-value pair under
     :return: None
     """
     if group is None:
@@ -37,23 +38,24 @@ def _load_cli(key: str, group: None | str) -> None:
     print(f"loaded value: '{value}'")
 
 
-def _delete_cli(key: str) -> None:
+def _delete_cli(key: str, group: None | str) -> None:
     """
-    Deletes a key-value pair for the given key.
+    Delete a key-value pair for the given key.
     :param key: The key to delete the value of
+    type group: The group name to delete the key-value pair from
     :return: None
     """
     print(f"deleted value: '{_db.read(key)}'")
-    _db.delete(key)
+    _db.delete(key, group)
 
 
-def _delete_all_cli() -> None:
+def _delete_group_cli(group: str) -> None:
     """
-    Deletes all stored key-value pairs from the data.ini file.
+    Delete all stored key-value pairs in the given group.
     :return: None
     """
-    _db.delete_all()
-    print(f"all key-value pairs deleted")
+    _db.delete_group(group)
+    print(f"deleted group: '{group}'")
 
 
 def _data_cli() -> None:
@@ -113,39 +115,55 @@ def print_key_value_table() -> None:
     Prints out a table of all saved data (key-value pairs).
     :return: None
     """
+    # CAUTION - ugly code ahead!
     print()
     print(f"key-value data pairs are stored in the data.ini file located at:")
     print(_db.PATH_TO_DATA_FILE)
-    key_value_pairs = _db.read_keys()
     print()
+    groups = _db.read_groups()
+
     print("data.ini file contents:")
-    if len(key_value_pairs) > 0:
-        max_len_key = max(len(x) for x in key_value_pairs.keys())
-        max_len_value = max(len(x) for x in key_value_pairs.values())
-        max_len_key = max(max_len_key, 10)
-        max_len_value = max(max_len_value, 10)
-    else:
-        max_len_key = 10
-        max_len_value = 11
-        key_value_pairs["   ...   "] = "    ...   "
-        print("- no key-value pairs saved -".lower())
+    for group in groups.keys():
+        key_value_pairs = groups[group]
+        group_printout = f"GROUP: [{group}]"
+        if len(key_value_pairs) > 0:
+            max_len_key = max(len(x) for x in key_value_pairs.keys())
+            max_len_value = max(len(x) for x in key_value_pairs.values())
+            max_len_key = max(max_len_key, 10)
+            max_len_value = max(max_len_value, 10)
+            is_group_test_longer_the_table = (max_len_key + max_len_value) < len(group_printout)
+            if is_group_test_longer_the_table:
+                amount_over = len(group_printout) - (max_len_key + max_len_value)
+                half_amount_over = math.ceil(amount_over / 2)
+                max_len_key += half_amount_over
+                max_len_value += half_amount_over
 
-    key_blank = "-" * max_len_key
-    value_blank = "-" * max_len_value
+        else:
+            max_len_key = 10
+            max_len_value = 11
+            key_value_pairs["   ...   "] = "    ...   "
+            print("- no key-value pairs saved -".lower())
 
-    key_header_centered = f'{"KEY":^{max_len_key}s}'
-    value_header_centered = f'{"VALUE":^{max_len_value}s}'
-    print(f"+-{key_blank}-+-{value_blank}-+")
-    print(f"| {key_header_centered} | {value_header_centered} |")
-    print(f"+-{key_blank}-+-{value_blank}-+")
+        key_blank = "-" * max_len_key
+        value_blank = "-" * max_len_value
 
-    for key, val in key_value_pairs.items():
-        key = key.ljust(max_len_key)
-        val = val.ljust(max_len_value)
-        print(f"| {key} | {val} |")
+        key_header_centered = f'{"KEY":^{max_len_key}s}'
+        value_header_centered = f'{"VALUE":^{max_len_value}s}'
+        value_group_centered = f'{group_printout:^{max_len_value + max_len_key + 3}s}'
+        print(f"+-{key_blank}-+-{value_blank}-+")
+        print(f"| {value_group_centered} |")
+        print(f"+-{key_blank}-+-{value_blank}-+")
+        print(f"| {key_header_centered} | {value_header_centered} |")
 
-    print(f"+-{key_blank}-+-{value_blank}-+")
-    print()
+        print(f"+-{key_blank}-+-{value_blank}-+")
+
+        for key, val in key_value_pairs.items():
+            key = key.ljust(max_len_key)
+            val = val.ljust(max_len_value)
+            print(f"| {key} | {val} |")
+
+        print(f"+-{key_blank}-+-{value_blank}-+")
+        print()
 
 
 def _open_file_with_application(file_path: str):
@@ -218,10 +236,12 @@ def main(argv=None) -> None:
     # A function called 'delete_' will be dynamically called when the 'delete' command is invoked
     parser_delete = subparsers.add_parser("delete")
     parser_delete.add_argument("key")
+    parser_delete.add_argument("-g", "--group", dest="group")
 
-    # The Delete_All sub-parsers.
-    # A function called '_delete_all_cli' will be dynamically called when the 'delete_all' command is invoked
-    subparsers.add_parser("delete_all")
+    # The Delete_group sub-parsers.
+    # A function called '_delete_group_cli' will be dynamically called when the 'delete_group' command is invoked
+    parser_delete_group = subparsers.add_parser("delete_group")
+    parser_delete_group.add_argument("group")
 
     # The Pre_Uninstall sub-parsers.
     # A function called '_pre_uninstall_cli' will be dynamically called when the 'pre_uninstall' command is invoked
