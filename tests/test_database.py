@@ -1,7 +1,8 @@
-import pathlib
 from platformdirs import user_data_dir
 
+import pathlib
 import pytest
+
 import privateprefs.core.database as _db
 
 test_key = "test key"
@@ -85,6 +86,24 @@ def test__read_keys__group_does_not_exist():
     assert group == {}
 
 
+def test__read_groups():
+    _add_group_key_value_to_data_file(test_key, test_value, test_group)
+    _add_group_key_value_to_data_file(test_key2, test_value2, test_group2)
+    group = _db.read_groups()
+    print()
+    print(group)
+    print(group[test_group][test_key])
+    assert group[test_group][test_key] == test_value
+    assert group[test_group2][test_key2] == test_value2
+
+
+def test__read_groups__except(mocker):
+    mocker.patch('privateprefs.core.database._get_config_parser_for_data_ini_file',
+                 return_value=None)
+    group = _db.read_groups()
+    assert group == {}
+
+
 def test__delete__no_group():
     group = _db.DEFAULT_GROUP_NAME
     _add_group_key_value_to_data_file(test_key, test_value, None)
@@ -115,7 +134,7 @@ def test__delete_all__no_group():
     dose_data_file_contain_test_key2 = _get_data_file_values(group)[group].__contains__(test_key2)
     assert dose_data_file_contain_test_key2 is True
 
-    _db.delete_all(None)
+    _db.delete_group(None)
 
     dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
     assert dose_data_file_contain_test_key is False
@@ -134,7 +153,7 @@ def test__delete_all__with_group():
     dose_data_file_contain_test_key2 = _get_data_file_values(group)[group].__contains__(test_key2)
     assert dose_data_file_contain_test_key2 is True
 
-    _db.delete_all(group)
+    _db.delete_group(group)
 
     dose_data_file_contain_test_key = _get_data_file_values(group)[group].__contains__(test_key)
     assert dose_data_file_contain_test_key is False
@@ -145,7 +164,7 @@ def test__delete_all__with_group():
 
 def test__delete_all__group_does_not_exist():
     group = "this group does not exist"
-    _db.delete_all(group)
+    _db.delete_group(group)
     # Group doesn't exist so no values to delete.
     # If group name is misspelled function will fail silently.
     # Not sure if we should throw an error if group doesn't exist?
